@@ -1,0 +1,46 @@
+-- 管理者権限でログインする
+./mysql -u root -p
+
+-- データベースを作成する
+CREATE DATABASE koujigenba_db DEFAULT CHARACTER SET utf8;
+
+-- 作成したデータベースのみ使用できるユーザーを作成し、パスワードも設定する
+GRANT ALL PRIVILEGES ON koujigenba_db.* TO koujigenba_user@'localhost' IDENTIFIED BY 'koujigenba_pass' WITH GRANT OPTION;
+exit;
+
+-- 作成したユーザーでログインする
+./mysql -u koujigenba_user -p
+
+-- 作成したデータベースを使用する
+USE koujigenba_db;
+
+-- ユーザーテーブル
+CREATE TABLE users (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  last_name VARCHAR(30) NOT NULL,
+  first_name VARCHAR(30) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 記事テーブル
+CREATE TABLE articles (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  image VARCHAR(50) NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  content TEXT NOT NULL,
+  user_id INT UNSIGNED NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- コメントテーブル
+CREATE TABLE comments (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  content TEXT NOT NULL,
+  user_id INT UNSIGNED NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
