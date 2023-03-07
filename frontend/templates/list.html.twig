@@ -8,14 +8,14 @@
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">ユーザー登録</a><br>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a>
   <h3>記事一覧</h3>
-  {% for value in article %}
-    ID:{{value.id}}
-    画像:{{value.image}}
-    タイトル:{{value.title}}
-    詳細:{{value.content}}
-    ユーザーID:{{value.user_id}}
-    作成日:{{value.created_at}}
-    更新日:{{value.updated_at}}
+  {% for article in articleArr %}
+    ID:{{article.id}}
+    画像:{{article.image}}
+    タイトル:{{varticletitle}}
+    詳細:{{article.content}}
+    ユーザーID:{{article.user_id}}
+    作成日:{{article.created_at}}
+    更新日:{{article.updated_at}}
     <br>
   {% endfor %}
 </body>
