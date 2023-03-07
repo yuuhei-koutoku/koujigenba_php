@@ -5,30 +5,20 @@ namespace koujigenba_php;
 require_once dirname(__FILE__) . '/Bootstrap.class.php';
 
 use koujigenba_php\backend\Bootstrap;
+use koujigenba_php\backend\lib\PDODatabase;
+use koujigenba_php\backend\lib\Article;
+
+$db = new PDODatabase(Bootstrap::DB_HOST, Bootstrap::DB_USER, Bootstrap::DB_PASS, Bootstrap::DB_NAME, Bootstrap::DB_TYPE);
+$article = new Article($db);
 
 $loader = new \Twig_Loader_Filesystem(Bootstrap::TEMPLATE_DIR);
 $twig = new \Twig_Environment($loader, [
     'cache' => Bootstrap::CACHE_DIR
 ]);
 
-$link = mysqli_connect('localhost', 'koujigenba_user', 'koujigenba_pass', 'koujigenba_db');
-if ($link !== false) {
-    echo 'データベースの接続に成功しました';
-
-    $query = "SELECT * FROM articles";
-    $res = mysqli_query($link, $query);
-
-    $data = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        array_push($data, $row);
-    }
-
-    // arsort 降順（逆順）で表示
-} else {
-    echo 'データベースの接続に失敗しました';
-}
+$articleArr = $article->getArticle();
 
 $context = [];
-if (isset($data) === true) $context['article'] = $data;
+$context['articleArr'] = $articleArr;
 $template = $twig->loadTemplate('list.html.twig');
 $template->display($context);
