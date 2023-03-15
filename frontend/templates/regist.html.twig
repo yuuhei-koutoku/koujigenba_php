@@ -10,22 +10,22 @@
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a><br>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a><br><br>
 
-  <form method="post" action="">
+  <form method="post" action="list.php">
     <div>
       <label for="last_name">姓</label>
       <input type="text" id="last_name" name="last_name" value="">
     </div>
-    {% if errArr.last_name | length > 0 %}{{errArr.last_name}}{% endif %}
+    {% if registErrArr.last_name | length > 0 %}{{registErrArr.last_name}}{% endif %}
     <div>
       <label for="first_name">名</label>
       <input type="text" id="first_name" name="first_name" value="">
     </div>
-    {% if errArr.first_name | length > 0 %}{{errArr.first_name}}{% endif %}
+    {% if registErrArr.first_name | length > 0 %}{{registErrArr.first_name}}{% endif %}
     <div>
       <label for="email">メールアドレス</label>
       <input type="email" id="email" name="email" value="">
     </div>
-    {% if errArr.email | length > 0 %}{{errArr.email}}{% endif %}
+    {% if registErrArr.email | length > 0 %}{{registErrArr.email}}{% endif %}
     <div>
       <label for="password">パスワード</label>
       <input type="password" id="password" name="password" value="">
@@ -34,9 +34,9 @@
       <label for="password_confirmation">パスワード（確認）</label>
       <input type="password" id="password_confirmation" name="password_confirmation" value="">
     </div>
-    {% if errArr.password | length > 0 %}{{errArr.password}}{% endif %}
+    {% if registErrArr.password | length > 0 %}{{registErrArr.password}}{% endif %}
     <div>
-      <button type="submit" name="action" value="regist">アカウント登録</button>
+      <button type="submit" name="regist" value="regist">アカウント登録</button>
     </div>
   </form>
 </body>

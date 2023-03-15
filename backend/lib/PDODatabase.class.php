@@ -51,14 +51,16 @@ class PDODatabase
         return $dbh;
     }
 
-    private function getSql($type, $table, $where = '', $column = '')
+    private function getSql($type, $table, $columnKey = '', $columnVal = '', $where = '')
     {
         switch ($type) {
             case 'insert':
+                $columnKey = "(" . $columnKey . ")";
+                $columnVal = "(" . $columnVal . ")";
                 break;
 
             case 'select':
-                $columnKey = ($column !== '') ? $column : '*';
+                $columnKey = ($columnKey !== '') ? $columnKey : '*';
                 break;
 
             case 'count':
@@ -78,18 +80,33 @@ class PDODatabase
         $whereSQL = ($where !== '') ? ' WHERE ' . $where : '';
         $other = $this->groupby . '' . $this->order . '' . $this->limit . '' . $this->offset;
 
-        $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $whereSQL . $other;
+        if ($type === 'insert') $sql = 'INSERT INTO ' . $table . $columnKey . ' VALUES ' . $columnVal;
+        if ($type === 'select') $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $whereSQL . $other;
+
         return $sql;
     }
 
-    public function insert()
+    public function insert($table, $columnKey, $columnVal)
     {
+        $sql = $this->getSql('insert', $table, $columnKey, $columnVal);
 
+        $this->sqlLogInfo($sql);
+
+        $stmt = $this->dbh->query($sql);
+
+        if ($stmt === false) {
+            $errorInfo = $this->dbh->errorInfo();
+            $this->catchError($errorInfo);
+        }
+
+        $res = ($stmt !== false) ? true : false;
+
+        return $res;
     }
 
-    public function select($table, $column = '', $where = '', $arrVal = [])
+    public function select($table, $columnKey = '', $where = '', $arrVal = [])
     {
-        $sql = $this->getSql('select', $table, $where, $column);
+        $sql = $this->getSql('select', $table, $columnKey, '', $where);
 
         $this->sqlLogInfo($sql, $arrVal);
 
