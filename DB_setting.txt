@@ -44,3 +44,9 @@ CREATE TABLE comments (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+-- セッションテーブル
+CREATE TABLE sessions (
+  user_id int unsigned not null,
+  session_key varchar(32)
+);
