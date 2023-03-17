@@ -46,26 +46,25 @@ if ($_SESSION['res'] === true) {
         $registErrArr = $validation_regist->errorCheck($registArr);
         // エラーメッセージがなければtrue、エラーメッセージがあればfalse
         $err_check = $validation_regist->getErrorFlg();
-    }
 
-    // アカウント登録入力内容保存
-    if ($err_check === true) {
-        // $_POSTの値をもとに、usersテーブルにデータを挿入
-        $regist_result = $session->regist($registArr);
-        if ($regist_result === true) {
-            $email = $registArr['email'];
-            // user_idを取得
-            $user_id = $session->getUserId($email);
-            // sessionsテーブルにデータを挿入
-            $_SESSION = $session->insertSession($user_id);
-            if ($_SESSION['res'] = true) {
-                $template = 'list.html.twig';
-                echo 'アカウントの登録に成功しました。';
+        // アカウント登録入力内容保存
+        if ($err_check === true) {
+            // $_POSTの値をもとに、usersテーブルにデータを挿入
+            $regist_result = $session->regist($registArr);
+            if ($regist_result === true) {
+                // user_idを取得
+                $user_id = $session->getUserId($registArr['email']);
+                // sessionsテーブルにデータを挿入
+                $_SESSION = $session->insertSession($user_id);
+                if ($_SESSION['res'] = true) {
+                    $template = 'list.html.twig';
+                    echo 'アカウントの登録に成功しました。';
+                } else {
+                    echo 'アカウントの登録に失敗しました。';
+                }
             } else {
                 echo 'アカウントの登録に失敗しました。';
             }
-        } else {
-            echo 'アカウントの登録に失敗しました。';
         }
     }
 }

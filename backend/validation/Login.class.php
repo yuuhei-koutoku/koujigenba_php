@@ -45,8 +45,6 @@ class Login
             $this->errArr['password'] = 'パスワードを入力してください。';
         } elseif (preg_match('/^[a-zA-Z0-9.?\/-]{8,16}$/', $this->dataArr['password']) === 0) {
             $this->errArr['password'] = '8文字以上16文字以下のパスワードを入力してください。';
-        } elseif ($this->dataArr['password'] !== $this->dataArr['password_confirmation']) {
-            $this->errArr['password'] = 'パスワードとパスワード(確認)が一致しません。';
         }
     }
 

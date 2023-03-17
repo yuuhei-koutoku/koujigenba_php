@@ -35,9 +35,30 @@ class Session
         return $res;
     }
 
+    public function login($dataArr)
+    {
+        $passwordArr = $this->getPassword($dataArr['email']);
+        $password_hash = $passwordArr[0]['password'];
+
+        $res = (password_verify($dataArr['password'], $password_hash)) ? true : false;
+
+        return $res;
+    }
+
+    private function getPassword($email)
+    {
+        $table = ' users ';
+        $columnKey = ' password ';
+        $where = " email = '" . $email . "'";
+
+        $res = $this->db->select($table, $columnKey, $where);
+
+        return $res;
+    }
+
     public function getUserId($email)
     {
-        $columnKey = 'id, last_name';
+        $columnKey = ' id ';
         $table = ' users ';
         $where = " email = '" . $email . "'";
 

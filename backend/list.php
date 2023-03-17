@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/Bootstrap.class.php';
 use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
 use koujigenba_php\backend\validation\Regist;
+use koujigenba_php\backend\validation\Login;
 use koujigenba_php\backend\lib\Session;
 use koujigenba_php\backend\lib\Article;
 
@@ -26,6 +27,8 @@ $session->checkSession();
 
 $registArr = [];
 $registErrArr = [];
+$loginArr = [];
+$loginErrArr = [];
 
 $template = 'list.html.twig';
 
@@ -35,13 +38,13 @@ if ($_SESSION['res'] === true) {
 } else {
     // セッションがない場合
 
-    // アカウント登録
-    // POST通信がある場合は、regist.html.twigを表示する
-    if (isset($_POST['regist']) === true) $template = 'regist.html.twig';
-
-    // アカウント登録入力内容チェック
     $err_check = false;
+
+    // アカウント登録
     if (isset($_POST['regist']) === true) {
+        // アカウント登録からのPOST通信がある場合は、regist.html.twigを表示する
+        $template = 'regist.html.twig';
+
         unset($_POST['regist']);
         $registArr = $_POST;
 
@@ -50,26 +53,58 @@ if ($_SESSION['res'] === true) {
         $registErrArr = $validation_regist->errorCheck($registArr);
         // エラーメッセージがなければtrue、エラーメッセージがあればfalse
         $err_check = $validation_regist->getErrorFlg();
-    }
 
-    // アカウント登録入力内容保存
-    if ($err_check === true) {
-        // $_POSTの値をもとに、usersテーブルにデータを挿入
-        $regist_result = $session->regist($registArr);
-        if ($regist_result === true) {
-            $email = $registArr['email'];
-            // user_idを取得
-            $user_id = $session->getUserId($email);
-            // sessionsテーブルにデータを挿入
-            $_SESSION = $session->insertSession($user_id);
-            if ($_SESSION['res'] = true) {
-                $template = 'list.html.twig';
-                echo 'アカウントの登録に成功しました。';
+        // アカウント登録入力内容保存
+        if ($err_check === true) {
+            // $_POSTの値をもとに、usersテーブルにデータを挿入
+            $regist_result = $session->regist($registArr);
+            if ($regist_result === true) {
+                $email = $registArr['email'];
+                // user_idを取得
+                $user_id = $session->getUserId($email);
+                // sessionsテーブルにデータを挿入
+                $_SESSION = $session->insertSession($user_id);
+                if ($_SESSION['res'] = true) {
+                    $template = 'list.html.twig';
+                    echo 'アカウントの登録に成功しました。';
+                } else {
+                    echo 'アカウントの登録に失敗しました。';
+                }
             } else {
                 echo 'アカウントの登録に失敗しました。';
             }
-        } else {
-            echo 'アカウントの登録に失敗しました。';
+        }
+    }
+
+    // ログイン
+    if (isset($_POST['login']) === true) {
+        // ログインからのPOST通信がある場合は、login.html.twigを表示する
+        $template = 'login.html.twig';
+
+        unset($_POST['login']);
+        $loginArr = $_POST;
+
+        $validation_login = new Login();
+        $loginErrArr = $validation_login->errorCheck($loginArr);
+        $err_check = $validation_login->getErrorFlg();
+
+        if ($err_check === true) {
+            // ログイン認証
+            $login_result = $session->login($loginArr);
+            if ($login_result === true) {
+                // user_idを取得
+                $user_id = $session->getUserId($loginArr['email']);
+                // sessionsテーブルにデータを挿入
+                $_SESSION = $session->insertSession($user_id);
+                if ($_SESSION['res'] = true) {
+                    $template = 'list.html.twig';
+                    echo 'ログインに成功しました。';
+                } else {
+                    echo 'ログインに失敗しました。';
+                }
+            } else {
+                echo 'ログインに失敗しました。';
+            }
         }
     }
 }
@@ -77,6 +112,8 @@ if ($_SESSION['res'] === true) {
 $context = [];
 $context['registArr'] = $registArr;
 $context['registErrArr'] = $registErrArr;
+$context['loginArr'] = $loginArr;
+$context['loginErrArr'] = $loginErrArr;
 $context['articleArr'] = $articleArr;
 $template = $twig->loadTemplate($template);
 $template->display($context);
