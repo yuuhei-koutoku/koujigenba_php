@@ -84,6 +84,17 @@ class Session
         return $res[0]['id'];
     }
 
+    public function checkEmail($email)
+    {
+        $table = ' users ';
+        $where = " email = '" . $email . "'";
+
+        $check_email = $this->db->select($table, '', $where);
+        $res = ($check_email === []) ? true : false;
+
+        return $res;
+    }
+
     public function insertSession($user_id)
     {
         $table = ' sessions ';
