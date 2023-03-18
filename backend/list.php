@@ -35,6 +35,17 @@ $template = 'list.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
+    // ログアウト
+    if (isset($_POST['logout']) === true) {
+        unset($_POST['logout']);
+        $user_id = $_SESSION['user_id'];
+        $session_key = $_SESSION['session_key'];
+        $session_result = $session->logout($user_id, $session_key);
+        if ($session_result === true) {
+            echo 'ログアウトしました。';
+            session_destroy();
+        }
+    }
 } else {
     // セッションがない場合
 

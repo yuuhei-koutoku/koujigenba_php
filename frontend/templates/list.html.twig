@@ -8,6 +8,9 @@
   <h3>リンク</h3>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">アカウント登録</a><br>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a>
+  <form method="post" action="">
+    <button type="submit" name="logout" value="logout">ログアウト</button>
+  </form>
   <h3>記事一覧</h3>
   {% for article in articleArr %}
     ID:{{article.id}}
