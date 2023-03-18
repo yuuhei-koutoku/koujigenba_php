@@ -82,6 +82,7 @@ class PDODatabase
 
         if ($type === 'insert') $sql = 'INSERT INTO ' . $table . $columnKey . ' VALUES ' . $columnVal;
         if ($type === 'select') $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $whereSQL . $other;
+        if ($type === 'delete') $sql = 'DELETE FROM ' . $table . $whereSQL;
 
         return $sql;
     }
@@ -139,9 +140,14 @@ class PDODatabase
 
     }
 
-    public function delete()
+    public function delete($table, $where, $whereArr)
     {
+        $sql = $this->getSql('delete', $table, '', '', $where);
 
+        $stmt = $this->dbh->prepare($sql);
+        $res = $stmt->execute($whereArr);
+
+        return $res;
     }
 
     public function setOrder($order = '')

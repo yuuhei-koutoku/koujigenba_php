@@ -32,6 +32,23 @@ $template = 'regist.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
+    $template = 'list.html.twig';
+
+    // ログアウト
+    if (isset($_POST['logout']) === true) {
+        unset($_POST['logout']);
+        $user_id = $_SESSION['user_id'];
+        $session_key = $_SESSION['session_key'];
+        $session_result = $session->logout($user_id, $session_key);
+        if ($session_result === true) {
+            $_SESSION = [
+                'res' => false,
+                'user_id' => 0,
+                'session_key' => ''
+            ];
+            echo 'ログアウトしました。';
+        }
+    }
 } else {
     // セッションがない場合
 
@@ -72,5 +89,6 @@ if ($_SESSION['res'] === true) {
 $context['registArr'] = $registArr;
 $context['registErrArr'] = $registErrArr;
 $context['articleArr'] = $articleArr;
+$context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);
 $template->display($context);

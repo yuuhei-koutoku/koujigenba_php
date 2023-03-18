@@ -56,6 +56,23 @@ class Session
         return $res;
     }
 
+    public function logout($user_id, $session_key)
+    {
+        $table = ' sessions ';
+        $where = " user_id = :user_id AND session_key = :session_key ";
+        $whereArr = [
+            'user_id' => $user_id,
+            'session_key' => $session_key
+        ];
+
+        $sessions_delete = $this->db->delete($table, $where, $whereArr);
+        $sessions_select = $this->db->select($table, '', $where, $whereArr);
+
+        $res = ($sessions_delete === true && $sessions_select === []) ? true : false;
+
+        return $res;
+    }
+
     public function getUserId($email)
     {
         $columnKey = ' id ';
