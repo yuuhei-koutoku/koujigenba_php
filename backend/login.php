@@ -19,34 +19,63 @@ $twig = new \Twig_Environment($loader, [
     'cache' => Bootstrap::CACHE_DIR
 ]);
 
+// 記事一覧データを取得
+$articleArr = $article->getArticle();
+
 $loginArr = [];
 $loginErrArr = [];
 
-$err_check = false;
-if (isset($_POST['login']) === true) {
-    unset($_POST['login']);
-    $loginArr = $_POST;
+$template = 'login.html.twig';
 
-    $validation_login = new Login();
-    $loginErrArr = $validation_login->errorCheck($loginArr);
-    $err_check = $validation_login->getErrorFlg();
+if ($_SESSION['res'] === true) {
+    // セッションがある場合
 
-    if ($err_check === true) {
-        // ログイン認証
-        $login_result = $session->login($loginArr);
-        if ($login_result === true) {
-            // user_idを取得
-            $user_id = $session->getUserId($loginArr['email']);
-            // sessionsテーブルにデータを挿入
-            $_SESSION = $session->insertSession($user_id);
-            if ($_SESSION['res'] = true) {
-                $template = 'list.html.twig';
-                echo 'ログインに成功しました。';
+    $template = 'list.html.twig';
+
+    // ログアウト
+    if (isset($_POST['logout']) === true) {
+        unset($_POST['logout']);
+        $user_id = $_SESSION['user_id'];
+        $session_key = $_SESSION['session_key'];
+        $session_result = $session->logout($user_id, $session_key);
+        if ($session_result === true) {
+            $_SESSION = [
+                'res' => false,
+                'user_id' => 0,
+                'session_key' => ''
+            ];
+            echo 'ログアウトしました。';
+        }
+    }
+} else {
+    // セッションがない場合
+
+    $err_check = false;
+    if (isset($_POST['login']) === true) {
+        unset($_POST['login']);
+        $loginArr = $_POST;
+
+        $validation_login = new Login();
+        $loginErrArr = $validation_login->errorCheck($loginArr);
+        $err_check = $validation_login->getErrorFlg();
+
+        if ($err_check === true) {
+            // ログイン認証
+            $login_result = $session->login($loginArr);
+            if ($login_result === true) {
+                // user_idを取得
+                $user_id = $session->getUserId($loginArr['email']);
+                // sessionsテーブルにデータを挿入
+                $_SESSION = $session->insertSession($user_id);
+                if ($_SESSION['res'] = true) {
+                    $template = 'list.html.twig';
+                    echo 'ログインに成功しました。';
+                } else {
+                    echo 'ログインに失敗しました。';
+                }
             } else {
                 echo 'ログインに失敗しました。';
             }
-        } else {
-            echo 'ログインに失敗しました。';
         }
     }
 }
@@ -54,5 +83,7 @@ if (isset($_POST['login']) === true) {
 $context = [];
 $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
-$template = $twig->loadTemplate('login.html.twig');
+$context['articleArr'] = $articleArr;
+$context['session'] = $_SESSION;
+$template = $twig->loadTemplate($template);
 $template->display($context);

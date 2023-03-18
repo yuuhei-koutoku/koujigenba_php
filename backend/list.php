@@ -42,8 +42,12 @@ if ($_SESSION['res'] === true) {
         $session_key = $_SESSION['session_key'];
         $session_result = $session->logout($user_id, $session_key);
         if ($session_result === true) {
+            $_SESSION = [
+                'res' => false,
+                'user_id' => 0,
+                'session_key' => ''
+            ];
             echo 'ログアウトしました。';
-            session_destroy();
         }
     }
 } else {
@@ -126,5 +130,6 @@ $context['registErrArr'] = $registErrArr;
 $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
 $context['articleArr'] = $articleArr;
+$context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);
 $template->display($context);
