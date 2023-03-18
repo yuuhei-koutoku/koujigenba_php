@@ -65,7 +65,7 @@ if ($_SESSION['res'] === true) {
 
         $validation_regist = new Regist();
         // 入力内容に不備があれば、エラーメッセージを配列で取得
-        $registErrArr = $validation_regist->errorCheck($registArr);
+        $registErrArr = $validation_regist->errorCheck($registArr, $session);
         // エラーメッセージがなければtrue、エラーメッセージがあればfalse
         $err_check = $validation_regist->getErrorFlg();
 

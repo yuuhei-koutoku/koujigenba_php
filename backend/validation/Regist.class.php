@@ -11,14 +11,14 @@ class Regist
     {
     }
 
-    public function errorCheck($registArr)
+    public function errorCheck($registArr, $session)
     {
         $this->dataArr = $registArr;
         $this->createErrorMessage();
 
         $this->lastNameCheck();
         $this->firstNameCheck();
-        $this->emailCheck();
+        $this->emailCheck($session);
         $this->passwordCheck();
 
         return $this->errArr;
@@ -39,7 +39,6 @@ class Regist
         } elseif (mb_strlen($this->dataArr['last_name']) > 30) {
             $this->errArr['last_name'] =  '姓は30文字以下で入力してください。';
         }
-        // このメールアドレスは既に利用されているため、登録できません。
     }
 
     private function firstNameCheck()
@@ -51,12 +50,15 @@ class Regist
         }
     }
 
-    private function emailCheck()
+    private function emailCheck($session)
     {
+        $check_email = $session->checkEmail($this->dataArr['email']);
         if ($this->dataArr['email'] === '') {
             $this->errArr['email'] = 'メールアドレスを入力してください。';
         } elseif (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+[a-zA-Z0-9\._-]+$/', $this->dataArr['email']) === 0) {
             $this->errArr['email'] = 'メールアドレスを正しい形式で入力してください。';
+        } elseif ($check_email === false) {
+            $this->errArr['email'] = 'このメールアドレスは既に利用されているため、登録できません。';
         }
     }
 
