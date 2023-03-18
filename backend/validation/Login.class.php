@@ -11,13 +11,19 @@ class Login
     {
     }
 
-    public function errorCheck($loginArr)
+    public function errorCheck($loginArr, $session)
     {
         $this->dataArr = $loginArr;
         $this->createErrorMessage();
 
         $this->emailCheck();
         $this->passwordCheck();
+
+        $loginErrArr = $this->errArr;
+        if ($loginErrArr['email'] === '' && $loginErrArr['password'] === '') {
+            $this->authenticationCheck($session);
+        }
+        echo '<br>';var_dump($this->errArr);echo '<br>';
 
         return $this->errArr;
     }
@@ -45,6 +51,22 @@ class Login
             $this->errArr['password'] = 'パスワードを入力してください。';
         } elseif (preg_match('/^[a-zA-Z0-9.?\/-]{8,16}$/', $this->dataArr['password']) === 0) {
             $this->errArr['password'] = '8文字以上16文字以下のパスワードを入力してください。';
+        }
+    }
+
+    public function authenticationCheck($session)
+    {
+        $password = $this->dataArr['password'];
+        $email = $this->dataArr['email'];
+        $passwordArr = $session->getPassword($email);
+
+        $password_hash = '';
+        if ($passwordArr !== []) $password_hash = $passwordArr[0]['password'];
+
+        $res = (password_verify($password, $password_hash)) ? true : false;
+
+        if ($res === false) {
+            $this->errArr['authentication'] = 'メールアドレスまたはパスワードが違います。';
         }
     }
 

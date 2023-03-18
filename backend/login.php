@@ -56,23 +56,17 @@ if ($_SESSION['res'] === true) {
         $loginArr = $_POST;
 
         $validation_login = new Login();
-        $loginErrArr = $validation_login->errorCheck($loginArr);
+        $loginErrArr = $validation_login->errorCheck($loginArr, $session);
         $err_check = $validation_login->getErrorFlg();
 
         if ($err_check === true) {
-            // ログイン認証
-            $login_result = $session->login($loginArr);
-            if ($login_result === true) {
-                // user_idを取得
-                $user_id = $session->getUserId($loginArr['email']);
-                // sessionsテーブルにデータを挿入
-                $_SESSION = $session->insertSession($user_id);
-                if ($_SESSION['res'] = true) {
-                    $template = 'list.html.twig';
-                    echo 'ログインに成功しました。';
-                } else {
-                    echo 'ログインに失敗しました。';
-                }
+            // user_idを取得
+            $user_id = $session->getUserId($loginArr['email']);
+            // sessionsテーブルにデータを挿入
+            $_SESSION = $session->insertSession($user_id);
+            if ($_SESSION['res'] = true) {
+                $template = 'list.html.twig';
+                echo 'ログインに成功しました。';
             } else {
                 echo 'ログインに失敗しました。';
             }

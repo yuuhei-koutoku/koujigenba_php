@@ -21,6 +21,7 @@
       <input type="password" id="password" name="password" value="">
     </div>
     {% if loginErrArr.password | length > 0 %}{{loginErrArr.password}}{% endif %}
+    {% if loginErrArr.authentication | length > 0 %}{{loginErrArr.authentication}}{% endif %}
     <div>
       <button type="submit" name="login" value="login">ログイン</button>
     </div>

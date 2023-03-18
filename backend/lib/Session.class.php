@@ -45,7 +45,7 @@ class Session
         return $res;
     }
 
-    private function getPassword($email)
+    public function getPassword($email)
     {
         $table = ' users ';
         $columnKey = ' password ';
