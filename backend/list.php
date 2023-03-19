@@ -6,7 +6,6 @@ require_once dirname(__FILE__) . '/Bootstrap.class.php';
 
 use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
-use koujigenba_php\backend\validation\Regist;
 use koujigenba_php\backend\validation\Login;
 use koujigenba_php\backend\lib\Session;
 use koujigenba_php\backend\lib\Article;
@@ -58,44 +57,10 @@ if ($_SESSION['res'] === true) {
 } else {
     // セッションがない場合
 
-    $err_check = false;
-
-    // アカウント登録
-    if (isset($_POST['regist']) === true) {
-        // アカウント登録からのPOST通信がある場合は、regist.html.twigを表示する
-        $template = 'regist.html.twig';
-
-        unset($_POST['regist']);
-        $registArr = $_POST;
-
-        $validation_regist = new Regist();
-        // 入力内容に不備があれば、エラーメッセージを配列で取得
-        $registErrArr = $validation_regist->errorCheck($registArr, $session);
-        // エラーメッセージがなければtrue、エラーメッセージがあればfalse
-        $err_check = $validation_regist->getErrorFlg();
-
-        // アカウント登録入力内容保存
-        if ($err_check === true) {
-            // $_POSTの値をもとに、usersテーブルにデータを挿入
-            $regist_result = $session->regist($registArr);
-            if ($regist_result === true) {
-                $email = $registArr['email'];
-                // user_idを取得
-                $user_id = $session->getUserId($email);
-                // sessionsテーブルにデータを挿入
-                $_SESSION = $session->insertSession($user_id);
-                if ($_SESSION['res'] = true) {
-                    $template = 'list.html.twig';
-                    $success_message = 'アカウントの登録に成功しました。';
-                } else {
-                    $error_message = 'アカウントの登録に失敗しました。';
-                }
-            } else {
-                $error_message = 'アカウントの登録に失敗しました。';
-            }
-        } else {
-            $error_message = 'アカウントの登録に失敗しました。';
-        }
+    // アカウント登録処理
+    if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL . 'backend/list.php') {
+        // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合のみ読み込む
+        require_once './auth/regist.php';
     }
 
     // ログイン

@@ -6,7 +6,6 @@ require_once dirname(__FILE__) . '/Bootstrap.class.php';
 
 use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
-use koujigenba_php\backend\validation\Regist;
 use koujigenba_php\backend\lib\Session;
 use koujigenba_php\backend\lib\Article;
 
@@ -57,40 +56,8 @@ if ($_SESSION['res'] === true) {
 } else {
     // セッションがない場合
 
-    // アカウント登録入力内容チェック
-    $err_check = false;
-    if (isset($_POST['regist']) === true) {
-        unset($_POST['regist']);
-        $registArr = $_POST;
-
-        $validation_regist = new Regist();
-        // 入力内容に不備があれば、エラーメッセージを配列で取得
-        $registErrArr = $validation_regist->errorCheck($registArr, $session);
-        // エラーメッセージがなければtrue、エラーメッセージがあればfalse
-        $err_check = $validation_regist->getErrorFlg();
-
-        // アカウント登録入力内容保存
-        if ($err_check === true) {
-            // $_POSTの値をもとに、usersテーブルにデータを挿入
-            $regist_result = $session->regist($registArr);
-            if ($regist_result === true) {
-                // user_idを取得
-                $user_id = $session->getUserId($registArr['email']);
-                // sessionsテーブルにデータを挿入
-                $_SESSION = $session->insertSession($user_id);
-                if ($_SESSION['res'] = true) {
-                    $template = 'list.html.twig';
-                    $success_message = 'アカウントの登録に成功しました。';
-                } else {
-                    $error_message = 'アカウントの登録に失敗しました。';
-                }
-            } else {
-                $error_message = 'アカウントの登録に失敗しました。';
-            }
-        } else {
-            $error_message = 'アカウントの登録に失敗しました。';
-        }
-    }
+    // アカウント登録処理
+    require_once './auth/regist.php';
 }
 
 $context['registArr'] = $registArr;
