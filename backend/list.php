@@ -57,38 +57,13 @@ if ($_SESSION['res'] === true) {
 } else {
     // セッションがない場合
 
-    // アカウント登録処理
+    // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合のみ読み込む
     if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL . 'backend/list.php') {
-        // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合のみ読み込む
+        // アカウント登録処理
         require_once './auth/regist.php';
-    }
 
-    // ログイン
-    if (isset($_POST['login']) === true) {
-        // ログインからのPOST通信がある場合は、login.html.twigを表示する
-        $template = 'login.html.twig';
-
-        unset($_POST['login']);
-        $loginArr = $_POST;
-
-        $validation_login = new Login();
-        $loginErrArr = $validation_login->errorCheck($loginArr, $session);
-        $err_check = $validation_login->getErrorFlg();
-
-        if ($err_check === true) {
-            // user_idを取得
-            $user_id = $session->getUserId($loginArr['email']);
-            // sessionsテーブルにデータを挿入
-            $_SESSION = $session->insertSession($user_id);
-            if ($_SESSION['res'] = true) {
-                $template = 'list.html.twig';
-                $success_message = 'ログインに成功しました。';
-            } else {
-                $error_message = 'ログインに失敗しました。';
-            }
-        } else {
-            $error_message = 'ログインに失敗しました。';
-        }
+        // ログイン処理
+        require_once './auth/login.php';
     }
 }
 

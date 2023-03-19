@@ -55,30 +55,8 @@ if ($_SESSION['res'] === true) {
 } else {
     // セッションがない場合
 
-    $err_check = false;
-    if (isset($_POST['login']) === true) {
-        unset($_POST['login']);
-        $loginArr = $_POST;
-
-        $validation_login = new Login();
-        $loginErrArr = $validation_login->errorCheck($loginArr, $session);
-        $err_check = $validation_login->getErrorFlg();
-
-        if ($err_check === true) {
-            // user_idを取得
-            $user_id = $session->getUserId($loginArr['email']);
-            // sessionsテーブルにデータを挿入
-            $_SESSION = $session->insertSession($user_id);
-            if ($_SESSION['res'] = true) {
-                $template = 'list.html.twig';
-                $success_message = 'ログインに成功しました。';
-            } else {
-                $error_message = 'ログインに失敗しました。';
-            }
-        } else {
-            $error_message = 'ログインに失敗しました。';
-        }
-    }
+    // ログイン処理
+    require_once './auth/login.php';
 }
 
 $context = [];
