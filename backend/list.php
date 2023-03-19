@@ -37,22 +37,13 @@ $template = 'list.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
-    // ログアウト
-    if (isset($_POST['logout']) === true) {
-        unset($_POST['logout']);
-        $user_id = $_SESSION['user_id'];
-        $session_key = $_SESSION['session_key'];
-        $session_result = $session->logout($user_id, $session_key);
-        if ($session_result === true) {
-            $_SESSION = [
-                'res' => false,
-                'user_id' => 0,
-                'session_key' => ''
-            ];
-            $success_message = 'ログアウトしました。';
-        } else {
-            $error_message = 'ログアウトできませんでした。';
-        }
+    // ログアウト処理
+    if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL) {
+        // URLが http://localhost:8888/koujigenba_php/ の場合
+        require_once './backend/auth/logout.php';
+    } else {
+        // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合
+        require_once './auth/logout.php';
     }
 } else {
     // セッションがない場合

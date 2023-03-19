@@ -4,7 +4,6 @@ namespace koujigenba_php\backend\auth;
 
 use koujigenba_php\backend\validation\Login;
 
-// ログイン
 if (isset($_POST['login']) === true) {
     // ログインからのPOST通信がある場合は、login.html.twigを表示する
     $template = 'login.html.twig';
@@ -13,7 +12,9 @@ if (isset($_POST['login']) === true) {
     $loginArr = $_POST;
 
     $validation_login = new Login();
+    // 入力内容に不備があれば、エラーメッセージを配列で取得
     $loginErrArr = $validation_login->errorCheck($loginArr, $session);
+    // エラーメッセージがなければtrue、エラーメッセージがあればfalse
     $err_check = $validation_login->getErrorFlg();
 
     if ($err_check === true) {
@@ -22,6 +23,7 @@ if (isset($_POST['login']) === true) {
         // sessionsテーブルにデータを挿入
         $_SESSION = $session->insertSession($user_id);
         if ($_SESSION['res'] = true) {
+            // ログインが成功したら、list.html.twigを表示する
             $template = 'list.html.twig';
             $success_message = 'ログインに成功しました。';
         } else {

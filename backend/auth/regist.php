@@ -17,7 +17,6 @@ if (isset($_POST['regist']) === true) {
     // エラーメッセージがなければtrue、エラーメッセージがあればfalse
     $err_check = $validation_regist->getErrorFlg();
 
-    // アカウント登録入力内容保存
     if ($err_check === true) {
         // $_POSTの値をもとに、usersテーブルにデータを挿入
         $regist_result = $session->regist($registArr);

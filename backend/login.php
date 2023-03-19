@@ -33,25 +33,8 @@ $template = 'login.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
-    $template = 'list.html.twig';
-
-    // ログアウト
-    if (isset($_POST['logout']) === true) {
-        unset($_POST['logout']);
-        $user_id = $_SESSION['user_id'];
-        $session_key = $_SESSION['session_key'];
-        $session_result = $session->logout($user_id, $session_key);
-        if ($session_result === true) {
-            $_SESSION = [
-                'res' => false,
-                'user_id' => 0,
-                'session_key' => ''
-            ];
-            $success_message = 'ログアウトしました。';
-        } else {
-            $error_message = 'ログアウトできませんでした。';
-        }
-    }
+    // ログアウト処理
+    require_once './auth/logout.php';
 } else {
     // セッションがない場合
 
