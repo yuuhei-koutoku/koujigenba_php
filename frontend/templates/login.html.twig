@@ -13,12 +13,12 @@
   <form method="post" action="list.php">
     <div>
       <label for="email">メールアドレス</label>
-      <input type="email" id="email" name="email" value="">
+      <input type="email" id="email" name="email" value="{{loginArr.email}}">
     </div>
     {% if loginErrArr.email | length > 0 %}{{loginErrArr.email}}{% endif %}
     <div>
       <label for="password">パスワード</label>
-      <input type="password" id="password" name="password" value="">
+      <input type="password" id="password" name="password" value="{{loginArr.password}}">
     </div>
     {% if loginErrArr.password | length > 0 %}{{loginErrArr.password}}{% endif %}
     {% if loginErrArr.authentication | length > 0 %}{{loginErrArr.authentication}}{% endif %}

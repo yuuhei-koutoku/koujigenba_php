@@ -13,26 +13,26 @@
   <form method="post" action="list.php">
     <div>
       <label for="last_name">姓</label>
-      <input type="text" id="last_name" name="last_name" value="">
+      <input type="text" id="last_name" name="last_name" value="{{registArr.last_name}}">
     </div>
     {% if registErrArr.last_name | length > 0 %}{{registErrArr.last_name}}{% endif %}
     <div>
       <label for="first_name">名</label>
-      <input type="text" id="first_name" name="first_name" value="">
+      <input type="text" id="first_name" name="first_name" value="{{registArr.first_name}}">
     </div>
     {% if registErrArr.first_name | length > 0 %}{{registErrArr.first_name}}{% endif %}
     <div>
       <label for="email">メールアドレス</label>
-      <input type="email" id="email" name="email" value="">
+      <input type="email" id="email" name="email" value="{{registArr.email}}">
     </div>
     {% if registErrArr.email | length > 0 %}{{registErrArr.email}}{% endif %}
     <div>
       <label for="password">パスワード</label>
-      <input type="password" id="password" name="password" value="">
+      <input type="password" id="password" name="password" value="{{registArr.password}}">
     </div>
     <div>
       <label for="password_confirmation">パスワード（確認）</label>
-      <input type="password" id="password_confirmation" name="password_confirmation" value="">
+      <input type="password" id="password_confirmation" name="password_confirmation" value="{{registArr.password_confirmation}}">
     </div>
     {% if registErrArr.password | length > 0 %}{{registErrArr.password}}{% endif %}
     <div>
