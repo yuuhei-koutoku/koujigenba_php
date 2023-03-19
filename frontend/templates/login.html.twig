@@ -6,9 +6,11 @@
 </head>
 <body>
   <h1>ログイン</h1>
-  <h3>リンク</h3>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">アカウント登録</a><br>
   <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a><br><br>
+
+  {% if success_message | length > 0 %}{{success_message}}{% endif %}
+  {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
   <form method="post" action="list.php">
     <div>

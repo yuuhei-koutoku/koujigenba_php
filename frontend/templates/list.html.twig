@@ -14,6 +14,9 @@
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a>
   {% endif %}
 
+  {% if success_message | length > 0 %}{{success_message}}{% endif %}
+  {% if error_message | length > 0 %}{{error_message}}{% endif %}
+
   <h3>記事一覧</h3>
   {% for article in articleArr %}
     ID:{{article.id}}

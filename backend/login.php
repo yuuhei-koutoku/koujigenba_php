@@ -25,6 +25,9 @@ $articleArr = $article->getArticle();
 $loginArr = [];
 $loginErrArr = [];
 
+$success_message = '';
+$error_message = '';
+
 $template = 'login.html.twig';
 
 if ($_SESSION['res'] === true) {
@@ -44,7 +47,9 @@ if ($_SESSION['res'] === true) {
                 'user_id' => 0,
                 'session_key' => ''
             ];
-            echo 'ログアウトしました。';
+            $success_message = 'ログアウトしました。';
+        } else {
+            $error_message = 'ログアウトできませんでした。';
         }
     }
 } else {
@@ -66,10 +71,12 @@ if ($_SESSION['res'] === true) {
             $_SESSION = $session->insertSession($user_id);
             if ($_SESSION['res'] = true) {
                 $template = 'list.html.twig';
-                echo 'ログインに成功しました。';
+                $success_message = 'ログインに成功しました。';
             } else {
-                echo 'ログインに失敗しました。';
+                $error_message = 'ログインに失敗しました。';
             }
+        } else {
+            $error_message = 'ログインに失敗しました。';
         }
     }
 }
@@ -79,5 +86,7 @@ $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
 $context['articleArr'] = $articleArr;
 $context['session'] = $_SESSION;
+$context['success_message'] = $success_message;
+$context['error_message'] = $error_message;
 $template = $twig->loadTemplate($template);
 $template->display($context);
