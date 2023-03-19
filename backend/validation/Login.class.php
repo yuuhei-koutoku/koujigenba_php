@@ -23,7 +23,6 @@ class Login
         if ($loginErrArr['email'] === '' && $loginErrArr['password'] === '') {
             $this->authenticationCheck($session);
         }
-        echo '<br>';var_dump($this->errArr);echo '<br>';
 
         return $this->errArr;
     }
