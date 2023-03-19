@@ -11,7 +11,7 @@
     </form>
   {% else %}
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">アカウント登録</a><br>
-    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a>
+    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a><br><br>
   {% endif %}
 
   {% if success_message | length > 0 %}{{success_message}}{% endif %}

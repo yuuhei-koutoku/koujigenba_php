@@ -1,6 +1,6 @@
 <?php
 
-namespace koujigenba_php;
+namespace koujigenba_php\backend;
 
 require_once dirname(__FILE__) . '/Bootstrap.class.php';
 
