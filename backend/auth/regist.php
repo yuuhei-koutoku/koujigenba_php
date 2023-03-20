@@ -13,7 +13,7 @@ if (isset($_POST['regist']) === true) {
 
     $validation_regist = new Regist();
     // 入力内容に不備があれば、エラーメッセージを配列で取得
-    $registErrArr = $validation_regist->errorCheck($registArr, $auth);
+    $registErrArr = $validation_regist->errorCheck($registArr, $user);
     // エラーメッセージがなければtrue、エラーメッセージがあればfalse
     $err_check = $validation_regist->getErrorFlg();
 
@@ -22,7 +22,7 @@ if (isset($_POST['regist']) === true) {
         $regist_result = $auth->regist($registArr);
         if ($regist_result === true) {
             // user_idを取得
-            $user_id = $auth->getUserId($registArr['email']);
+            $user_id = $user->getUserId($registArr['email']);
             // sessionsテーブルにデータを挿入
             $_SESSION = $session->insertSession($user_id);
             if ($_SESSION['res'] = true) {

@@ -13,13 +13,13 @@ if (isset($_POST['login']) === true) {
 
     $validation_login = new Login();
     // 入力内容に不備があれば、エラーメッセージを配列で取得
-    $loginErrArr = $validation_login->errorCheck($loginArr, $auth);
+    $loginErrArr = $validation_login->errorCheck($loginArr, $user);
     // エラーメッセージがなければtrue、エラーメッセージがあればfalse
     $err_check = $validation_login->getErrorFlg();
 
     if ($err_check === true) {
         // user_idを取得
-        $user_id = $auth->getUserId($loginArr['email']);
+        $user_id = $user->getUserId($loginArr['email']);
         // sessionsテーブルにデータを挿入
         $_SESSION = $session->insertSession($user_id);
         if ($_SESSION['res'] = true) {
