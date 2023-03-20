@@ -11,7 +11,7 @@ class Login
     {
     }
 
-    public function errorCheck($loginArr, $session)
+    public function errorCheck($loginArr, $auth)
     {
         $this->dataArr = $loginArr;
         $this->createErrorMessage();
@@ -21,7 +21,7 @@ class Login
 
         $loginErrArr = $this->errArr;
         if ($loginErrArr['email'] === '' && $loginErrArr['password'] === '') {
-            $this->authenticationCheck($session);
+            $this->authenticationCheck($auth);
         }
 
         return $this->errArr;
@@ -53,11 +53,11 @@ class Login
         }
     }
 
-    public function authenticationCheck($session)
+    public function authenticationCheck($auth)
     {
         $password = $this->dataArr['password'];
         $email = $this->dataArr['email'];
-        $passwordArr = $session->getPassword($email);
+        $passwordArr = $auth->getPassword($email);
 
         $password_hash = '';
         if ($passwordArr !== []) $password_hash = $passwordArr[0]['password'];

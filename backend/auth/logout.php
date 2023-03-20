@@ -10,9 +10,9 @@ if (isset($_POST['logout']) === true) {
     $user_id = $_SESSION['user_id'];
     $session_key = $_SESSION['session_key'];
     // sessionsテーブルのデータを削除
-    $session_result = $session->logout($user_id, $session_key);
+    $logout_result = $auth->logout($user_id, $session_key);
 
-    if ($session_result === true) {
+    if ($logout_result === true) {
         // セッションの値を削除
         $_SESSION = [
             'res' => false,

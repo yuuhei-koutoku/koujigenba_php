@@ -11,14 +11,14 @@ class Regist
     {
     }
 
-    public function errorCheck($registArr, $session)
+    public function errorCheck($registArr, $auth)
     {
         $this->dataArr = $registArr;
         $this->createErrorMessage();
 
         $this->lastNameCheck();
         $this->firstNameCheck();
-        $this->emailCheck($session);
+        $this->emailCheck($auth);
         $this->passwordCheck();
 
         return $this->errArr;
@@ -50,9 +50,9 @@ class Regist
         }
     }
 
-    private function emailCheck($session)
+    private function emailCheck($auth)
     {
-        $check_email = $session->checkEmail($this->dataArr['email']);
+        $check_email = $auth->checkEmail($this->dataArr['email']);
         if ($this->dataArr['email'] === '') {
             $this->errArr['email'] = 'メールアドレスを入力してください。';
         } elseif (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+[a-zA-Z0-9\._-]+$/', $this->dataArr['email']) === 0) {
