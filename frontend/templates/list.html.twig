@@ -9,6 +9,7 @@
     <form method="post" action="">
       <button type="submit" name="logout" value="logout">ログアウト</button>
     </form>
+    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/create.php">新規投稿</a>
   {% else %}
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">アカウント登録</a><br>
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a><br><br>
@@ -18,7 +19,7 @@
   {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
   <h3>記事一覧</h3>
-  {% for article in articleArr %}
+  {% for article in article.listArr %}
     ID:{{article.id}}
     画像:{{article.image}}
     タイトル:{{varticletitle}}
