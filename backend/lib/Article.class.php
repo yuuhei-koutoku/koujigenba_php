@@ -14,8 +14,10 @@ class Article
     public function getArticle()
     {
         $table = ' articles ';
+        $columnKey = ' image, title, last_name, first_name, articles.created_at ';
+        $join = ' JOIN users ON articles.user_id = users.id ';
 
-        return $this->db->select($table);
+        return $this->db->select($table, $columnKey, '', [], $join);
     }
 
     public function insertArticle($dataArr, $user_id, $image_name)
