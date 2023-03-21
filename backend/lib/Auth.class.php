@@ -16,12 +16,12 @@ class Auth
         $dataArr['password_hash'] = password_hash($dataArr['password'], PASSWORD_DEFAULT);
         $columnKey = 'last_name, first_name, email, password, created_at, updated_at';
         $columnVal = "'"
-                 . $dataArr['last_name'] . "', '"
-                 . $dataArr['first_name'] . "', '"
-                 . $dataArr['email'] . "', '"
-                 . $dataArr['password_hash'] . "', "
-                 . 'NOW()' . ", "
-                 . 'NOW()';
+                   . $dataArr['last_name'] . "', '"
+                   . $dataArr['first_name'] . "', '"
+                   . $dataArr['email'] . "', '"
+                   . $dataArr['password_hash'] . "', "
+                   . 'NOW()' . ", "
+                   . 'NOW()';
         $table = ' users ';
 
         $res = $this->db->insert($table, $columnKey, $columnVal);

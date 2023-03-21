@@ -22,15 +22,17 @@ $twig = new \Twig_Environment($loader, [
     'cache' => Bootstrap::CACHE_DIR
 ]);
 
-// 記事一覧データを取得
-$articleArr = $article->getArticle();
-
 $session->checkSession();
 
 $registArr = [];
 $registErrArr = [];
+
 $loginArr = [];
 $loginErrArr = [];
+
+$createArr = [];
+$submitErrArr = [];
+$submitErrArr = [];
 
 $success_message = '';
 $error_message = '';
@@ -41,11 +43,14 @@ if ($_SESSION['res'] === true) {
     // セッションがある場合
 
     // ログアウト処理
+    // 記事投稿処理
     if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL) {
         // URLが http://localhost:8888/koujigenba_php/ の場合
+        require_once './backend/article/create.php';
         require_once './backend/auth/logout.php';
     } else {
         // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合
+        require_once './article/create.php';
         require_once './auth/logout.php';
     }
 } else {
@@ -61,14 +66,26 @@ if ($_SESSION['res'] === true) {
     }
 }
 
+// 記事一覧データを取得
+$listArr = $article->getArticle();
+
 $context = [];
+
 $context['registArr'] = $registArr;
 $context['registErrArr'] = $registErrArr;
+
 $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
-$context['articleArr'] = $articleArr;
+
+$context['article']['listArr'] = $listArr;
+$context['article']['createArr'] = $createArr;
+$context['articleErr']['submitArr'] = $submitErrArr;
+$context['articleErr']['imageArr'] = $submitErrArr;
+
 $context['session'] = $_SESSION;
+
 $context['success_message'] = $success_message;
 $context['error_message'] = $error_message;
+
 $template = $twig->loadTemplate($template);
 $template->display($context);

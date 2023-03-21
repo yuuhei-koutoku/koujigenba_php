@@ -5,7 +5,7 @@ namespace koujigenba_php\backend\auth;
 use koujigenba_php\backend\validation\Login;
 
 if (isset($_POST['login']) === true) {
-    // ログインからのPOST通信がある場合は、login.html.twigを表示する
+    // ログインからのPOST通信がある場合は、login.html.twigを表示
     $template = 'login.html.twig';
 
     unset($_POST['login']);
@@ -23,7 +23,7 @@ if (isset($_POST['login']) === true) {
         // sessionsテーブルにデータを挿入
         $_SESSION = $session->insertSession($user_id);
         if ($_SESSION['res'] = true) {
-            // ログインが成功したら、list.html.twigを表示する
+            // ログインが成功したら、list.html.twigを表示
             $template = 'list.html.twig';
             $success_message = 'ログインに成功しました。';
         } else {

@@ -23,7 +23,7 @@ $twig = new \Twig_Environment($loader, [
 ]);
 
 // 記事一覧データを取得
-$articleArr = $article->getArticle();
+$listArr = $article->getArticle();
 
 $session->checkSession();
 
@@ -49,7 +49,7 @@ if ($_SESSION['res'] === true) {
 
 $context['registArr'] = $registArr;
 $context['registErrArr'] = $registErrArr;
-$context['articleArr'] = $articleArr;
+$context['article']['listArr'] = $listArr;
 $context['session'] = $_SESSION;
 $context['success_message'] = $success_message;
 $context['error_message'] = $error_message;
