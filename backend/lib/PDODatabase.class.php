@@ -51,7 +51,7 @@ class PDODatabase
         return $dbh;
     }
 
-    private function getSql($type, $table, $columnKey = '', $columnVal = '', $where = '')
+    private function getSql($type, $table, $columnKey = '', $columnVal = '', $where = '', $join = '')
     {
         switch ($type) {
             case 'insert':
@@ -81,7 +81,7 @@ class PDODatabase
         $other = $this->groupby . '' . $this->order . '' . $this->limit . '' . $this->offset;
 
         if ($type === 'insert') $sql = 'INSERT INTO ' . $table . $columnKey . ' VALUES ' . $columnVal;
-        if ($type === 'select') $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $whereSQL . $other;
+        if ($type === 'select') $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $join . $whereSQL . $other;
         if ($type === 'delete') $sql = 'DELETE FROM ' . $table . $whereSQL;
 
         return $sql;
@@ -105,9 +105,9 @@ class PDODatabase
         return $res;
     }
 
-    public function select($table, $columnKey = '', $where = '', $arrVal = [])
+    public function select($table, $columnKey = '', $where = '', $arrVal = [], $join = '')
     {
-        $sql = $this->getSql('select', $table, $columnKey, '', $where);
+        $sql = $this->getSql('select', $table, $columnKey, '', $where, $join);
 
         $this->sqlLogInfo($sql, $arrVal);
 

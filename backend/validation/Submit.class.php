@@ -43,7 +43,7 @@ class Submit
         if ($this->dataArr['content'] === '') {
             $this->errArr['content'] = '本文を入力してください。';
         } elseif (mb_strlen($this->dataArr['content']) > 10000) {
-            $this->errArr['content'] =  'タイトルは10000文字以下で入力してください。';
+            $this->errArr['content'] =  '本文は10000文字以下で入力してください。';
         }
     }
 
