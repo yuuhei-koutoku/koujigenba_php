@@ -21,15 +21,15 @@
   <h3>記事一覧</h3>
   {% for article in article.listArr %}
     {% if article.image == '' %}
-      <a href="#">
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">
         <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/images/no_image.jpg" width="255" height="143" alt="{{article.image}}" />
       </a>
     {% else %}
-      <a href="#">
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">
         <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/images/upload/{{article.image}}" width="255" height="143" alt="{{article.image}}" />
       </a>
     {% endif %}
-    <a href="#">{{article.title}}</a>
+    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">{{article.title}}</a>
     投稿者名：{{article.last_name}}&nbsp;{{article.first_name}}
     作成日:{{article.created_at}}
     <a href="#">[編集]</a>
