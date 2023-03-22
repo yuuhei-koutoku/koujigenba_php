@@ -5,6 +5,14 @@
 </head>
 <body>
 <h1>記事詳細</h1>
+{{article.detailArr.title}}
+{% if article.detailArr.image != '' %}
+  <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/images/upload/{{article.detailArr.image}}" width="255" height="143" alt="{{article.detailArr.image}}" />
+{% endif %}
+{{article.detailArr.content}}
+{{article.detailArr.last_name}}
+{{article.detailArr.first_name}}
+{{article.detailArr.created_at}}
 <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a>
 </body>
 </html>

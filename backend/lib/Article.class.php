@@ -11,13 +11,14 @@ class Article
         $this->db = $db;
     }
 
-    public function getArticle()
+    public function getArticle($where = '')
     {
         $table = ' articles ';
-        $columnKey = ' articles.id, image, title, last_name, first_name, articles.created_at ';
+        $columnKey = ' articles.id, image, title, content, last_name, first_name, articles.created_at ';
         $join = ' JOIN users ON articles.user_id = users.id ';
+        $where = ($where !== '') ? ' articles.id = ' . $where : '';
 
-        return $this->db->select($table, $columnKey, '', [], $join);
+        return $this->db->select($table, $columnKey, $where, [], $join);
     }
 
     public function insertArticle($dataArr, $user_id, $image_name)
