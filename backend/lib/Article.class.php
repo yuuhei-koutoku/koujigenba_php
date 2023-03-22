@@ -14,7 +14,7 @@ class Article
     public function getArticle()
     {
         $table = ' articles ';
-        $columnKey = ' image, title, last_name, first_name, articles.created_at ';
+        $columnKey = ' articles.id, image, title, last_name, first_name, articles.created_at ';
         $join = ' JOIN users ON articles.user_id = users.id ';
 
         return $this->db->select($table, $columnKey, '', [], $join);
