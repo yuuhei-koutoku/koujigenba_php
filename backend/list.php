@@ -78,7 +78,7 @@ $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
 
 $context['article']['listArr'] = $listArr;
-$context['article']['createArr'] = $createArr;
+$context['article']['saveArr'] = $createArr;
 $context['articleErr']['submitArr'] = $submitErrArr;
 $context['articleErr']['imageArr'] = $submitErrArr;
 

@@ -29,5 +29,6 @@ if ($_SESSION['res'] === false) {
 }
 
 $context = [];
+$context['article']['saveArr'] = $createArr;
 $template = $twig->loadTemplate($template);
 $template->display($context);

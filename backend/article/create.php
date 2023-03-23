@@ -6,6 +6,8 @@ use koujigenba_php\backend\lib\Article;
 use koujigenba_php\backend\validation\Submit;
 use koujigenba_php\backend\validation\Image;
 
+$createArr = [];
+
 if (isset($_POST['create']) === true) {
     $template = 'create.html.twig';
 
