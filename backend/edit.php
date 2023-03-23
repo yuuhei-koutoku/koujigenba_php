@@ -18,7 +18,7 @@ $twig = new \Twig_Environment($loader, [
 
 $session->checkSession();
 
-if ($_GET === [] || $_SESSION['res'] === true) {
+if ($_GET === [] || $_SESSION['res'] === false) {
     // $_GETのパラメーターがなければ、トップページへリダイレクト
     header('Location: ' . Bootstrap::ENTRY_URL);
 } else {

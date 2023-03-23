@@ -32,8 +32,10 @@
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">{{article.title}}</a>
     投稿者名：{{article.last_name}}&nbsp;{{article.first_name}}
     作成日:{{article.created_at}}
-    <a href="#">[編集]</a>
-    <a href="#">[削除]</a>
+    {% if article.user_id == session.user_id %}
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/edit.php?article_id={{article.id}}">[編集]</a>
+      <a href="#">[削除]</a>
+    {% endif %}
     <br>
   {% endfor %}
 </body>
