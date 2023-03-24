@@ -26,6 +26,9 @@
     {% if articleErr.imageArr.extension | length > 0 %}{{articleErr.imageArr.extension}}{% endif %}
     {% if articleErr.imageArr.name | length > 0 %}{{articleErr.imageArr.name}}{% endif %}
     <div>
+      <input type="hidden" name="article_id" value="{{article.article_id}}">
+    </div>
+    <div>
       <button type="submit" name="edit" value="edit">編集</button>
     </div>
   </form>

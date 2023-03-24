@@ -31,6 +31,7 @@ $loginArr = [];
 $loginErrArr = [];
 
 $createArr = [];
+$editArr = [];
 $submitErrArr = [];
 $submitErrArr = [];
 
@@ -42,15 +43,22 @@ $template = 'list.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
-    // ログアウト処理
     // 記事投稿処理
     if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL) {
         // URLが http://localhost:8888/koujigenba_php/ の場合
-        require_once './backend/article/create.php';
+
+        // ログアウト処理
         require_once './backend/auth/logout.php';
     } else {
         // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合
+
+        // 記事投稿処理
         require_once './article/create.php';
+
+        // 記事編集処理
+        require_once './article/edit.php';
+
+        // ログアウト処理
         require_once './auth/logout.php';
     }
 } else {
@@ -78,7 +86,7 @@ $context['loginArr'] = $loginArr;
 $context['loginErrArr'] = $loginErrArr;
 
 $context['article']['listArr'] = $listArr;
-$context['article']['saveArr'] = $createArr;
+$context['article']['saveArr'] = ($editArr === []) ? $createArr : $editArr;
 $context['articleErr']['submitArr'] = $submitErrArr;
 $context['articleErr']['imageArr'] = $submitErrArr;
 

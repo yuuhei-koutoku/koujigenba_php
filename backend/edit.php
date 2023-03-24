@@ -19,18 +19,21 @@ $twig = new \Twig_Environment($loader, [
 
 $session->checkSession();
 
+$template = 'edit.html.twig';
+
+$article = new Article($db);
+$getArr = $article->getArticle($_GET['article_id']);
+
 if ($_GET === [] || $_SESSION['res'] === false) {
     // $_GETのパラメーターがなければ、トップページへリダイレクト
     header('Location: ' . Bootstrap::ENTRY_URL);
 } else {
-    $article = new Article($db);
-    $editArr = $article->getArticle($_GET['article_id']);
+    require_once './article/edit.php';
 }
 
-$template = 'edit.html.twig';
 
 $context = [];
-$context['article']['saveArr'] = $editArr[0];
-
+$context['article']['saveArr'] = $getArr[0];
+$context['article']['article_id'] = $_GET['article_id'];
 $template = $twig->loadTemplate($template);
 $template->display($context);

@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/Bootstrap.class.php';
 use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
 use koujigenba_php\backend\lib\Session;
-
+use koujigenba_php\backend\lib\Article;
 
 $db = new PDODatabase(Bootstrap::DB_HOST, Bootstrap::DB_USER, Bootstrap::DB_PASS, Bootstrap::DB_NAME, Bootstrap::DB_TYPE);
 $session = new Session($db);
@@ -20,6 +20,8 @@ $twig = new \Twig_Environment($loader, [
 $session->checkSession();
 
 $template = 'create.html.twig';
+
+$createArr = [];
 
 if ($_SESSION['res'] === false) {
     // セッションがなければ、トップページへリダイレクト

@@ -6,15 +6,18 @@ use koujigenba_php\backend\lib\Article;
 use koujigenba_php\backend\validation\Submit;
 use koujigenba_php\backend\validation\Image;
 
-if (isset($_POST['create']) === true) {
-    $template = 'create.html.twig';
+if (isset($_POST['edit']) === true) {
+    $template = 'edit.html.twig';
 
-    unset($_POST['create']);
-    $createArr = $_POST;
+    unset($_POST['edit']);
+    $editArr = $_POST;
+
+    $article = new Article($db);
+    $getArr = ($_GET === []) ? $article->getArticle($_POST['article_id']) : $article->getArticle($_GET['article_id']);
 
     $submit = new Submit;
     // 入力内容に不備があれば、エラーメッセージを配列で取得
-    $submitErrArr = $submit->errorCheck($createArr);
+    $submitErrArr = $submit->errorCheck($editArr);
     // エラーメッセージがなければtrue、エラーメッセージがあればfalse
     $submit_err_check = $submit->getErrorFlg();
 
@@ -32,24 +35,24 @@ if (isset($_POST['create']) === true) {
     }
 
     if ($submit_err_check === true && $image_err_check !== false) {
-        // user_idを取得
-        $user_id = $_SESSION['user_id'];
+        // article_idを取得
+        $article_id = $getArr[0]['id'];
         // 添付画像があればファイル名を指定、添付画像がなければ空文字
         $image_name = ($tmp_image['size'] !== 0) ? 'upload_' . time() . '_' . $tmp_image['name'] : '';
 
         $article = new Article($db);
         // articlesテーブルにデータを挿入
-        $insert_article_result = $article->insertArticle($createArr, $user_id, $image_name);
-        if ($insert_article_result === true) {
-            $success_message = '記事を正常に投稿しました。';
-            // 正常に投稿できたら、list.html.twigを表示
+        $update_article_result = $article->updateArticle($editArr, $article_id, $image_name);
+        if ($update_article_result === true) {
+            $success_message = '記事を正常に更新しました。';
+            // 正常に更新できたら、list.html.twigを表示
             $template = 'list.html.twig';
             // 添付画像があれば、/backend/images/upload/に画像を保存
             if ($tmp_image['size'] !== 0) move_uploaded_file($tmp_image['tmp_name'], './images/upload/' . $image_name);
         } else {
-            $error_message = '記事の投稿に失敗しました。';
+            $error_message = '記事の更新に失敗しました。';
         }
     } else {
-        $error_message = '記事の投稿に失敗しました。';
+        $error_message = '記事の更新に失敗しました。';
     }
 }
