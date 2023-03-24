@@ -14,5 +14,12 @@
 {{article.detailArr.first_name}}
 {{article.detailArr.created_at}}
 <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a>
+{% if article.detailArr.user_id == session.user_id %}
+  <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/edit.php?article_id={{article.detailArr.id}}">[編集]</a>
+  <form method="post" action="list.php">
+    <input type="hidden" name="article_id" value="{{article.detailArr.id}}">
+    <button type="submit" name="delete" value="delete">削除</button>
+  </form>
+{% endif %}
 </body>
 </html>
