@@ -47,6 +47,9 @@ if ($_SESSION['res'] === true) {
     if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL) {
         // URLが http://localhost:8888/koujigenba_php/ の場合
 
+        // 記事削除処理
+        require_once './backend/article/delete.php';
+
         // ログアウト処理
         require_once './backend/auth/logout.php';
     } else {
@@ -57,6 +60,9 @@ if ($_SESSION['res'] === true) {
 
         // 記事編集処理
         require_once './article/edit.php';
+
+        // 記事削除処理
+        require_once './article/delete.php';
 
         // ログアウト処理
         require_once './auth/logout.php';

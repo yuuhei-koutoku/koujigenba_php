@@ -38,10 +38,10 @@ class Auth
             'session_key' => $session_key
         ];
 
-        $sessions_delete = $this->db->delete($table, $where, $whereArr);
-        $sessions_select = $this->db->select($table, '', $where, $whereArr);
+        $session_delete = $this->db->delete($table, $where, $whereArr);
+        $session_select = $this->db->select($table, '', $where, $whereArr);
 
-        $res = ($sessions_delete === true && $sessions_select === []) ? true : false;
+        $res = ($session_delete === true && $session_select === []) ? true : false;
 
         return $res;
     }
