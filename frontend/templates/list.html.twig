@@ -9,6 +9,7 @@
     <form method="post" action="">
       <button type="submit" name="logout" value="logout">ログアウト</button>
     </form>
+    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/create.php">新規投稿</a>
   {% else %}
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/regist.php">アカウント登録</a><br>
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/login.php">ログイン</a><br><br>
@@ -18,14 +19,26 @@
   {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
   <h3>記事一覧</h3>
-  {% for article in articleArr %}
-    ID:{{article.id}}
-    画像:{{article.image}}
-    タイトル:{{varticletitle}}
-    詳細:{{article.content}}
-    ユーザーID:{{article.user_id}}
+  {% for article in article.listArr %}
+    {% if article.image == '' %}
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">
+        <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/images/no_image.jpg" width="255" height="143" alt="{{article.image}}" />
+      </a>
+    {% else %}
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">
+        <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/images/upload/{{article.image}}" width="255" height="143" alt="{{article.image}}" />
+      </a>
+    {% endif %}
+    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/detail.php?article_id={{article.id}}">{{article.title}}</a>
+    投稿者名：{{article.last_name}}&nbsp;{{article.first_name}}
     作成日:{{article.created_at}}
-    更新日:{{article.updated_at}}
+    {% if article.user_id == session.user_id %}
+      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/edit.php?article_id={{article.id}}">[編集]</a>
+      <form method="post" action="">
+        <input type="hidden" name="article_id" value="{{article.id}}">
+        <button type="submit" name="delete" value="delete">削除</button>
+      </form>
+    {% endif %}
     <br>
   {% endfor %}
 </body>

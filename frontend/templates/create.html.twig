@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>新規投稿</title>
+</head>
+<body>
+  <h1>新規投稿</h1>
+  <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a><br><br>
+
+  {% if success_message | length > 0 %}{{success_message}}{% endif %}
+  {% if error_message | length > 0 %}{{error_message}}{% endif %}
+
+  <form method="post" action="list.php" enctype="multipart/form-data">
+    {% include 'form.html.twig' %}
+    <div>
+      <button type="submit" name="create" value="create">投稿</button>
+    </div>
+  </form>
+</body>
+</html>

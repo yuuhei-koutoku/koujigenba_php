@@ -2,9 +2,8 @@
 
 namespace koujigenba_php\backend\auth;
 
-$template = 'list.html.twig';
-
 if (isset($_POST['logout']) === true) {
+    $template = 'list.html.twig';
 
     unset($_POST['logout']);
     $user_id = $_SESSION['user_id'];
