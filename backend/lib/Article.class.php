@@ -56,4 +56,20 @@ class Article
 
         return $res;
     }
+
+    public function deleteArticle($article_id)
+    {
+        $table = ' articles ';
+        $where = ' id = :id ';
+        $whereArr = [
+            'id' => $article_id
+        ];
+
+        $article_delete = $this->db->delete($table, $where, $whereArr);
+        $article_select = $this->db->select($table, '', $where, $whereArr);
+
+        $res = ($article_delete === true && $article_select === []) ? true : false;
+
+        return $res;
+    }
 }

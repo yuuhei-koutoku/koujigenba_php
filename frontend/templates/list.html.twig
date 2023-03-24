@@ -34,7 +34,10 @@
     作成日:{{article.created_at}}
     {% if article.user_id == session.user_id %}
       <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}backend/edit.php?article_id={{article.id}}">[編集]</a>
-      <a href="#">[削除]</a>
+      <form method="post" action="">
+        <input type="hidden" name="article_id" value="{{article.id}}">
+        <button type="submit" name="delete" value="delete">削除</button>
+      </form>
     {% endif %}
     <br>
   {% endfor %}
