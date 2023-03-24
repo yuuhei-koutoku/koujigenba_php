@@ -82,6 +82,7 @@ class PDODatabase
 
         if ($type === 'insert') $sql = 'INSERT INTO ' . $table . $columnKey . ' VALUES ' . $columnVal;
         if ($type === 'select') $sql = 'SELECT ' . $columnKey . ' FROM ' . $table . $join . $whereSQL . $other;
+        if ($type === 'update') $sql = 'UPDATE ' . $table . ' SET ' . $columnVal . $whereSQL;
         if ($type === 'delete') $sql = 'DELETE FROM ' . $table . $whereSQL;
 
         return $sql;
@@ -135,9 +136,20 @@ class PDODatabase
         return $data;
     }
 
-    public function update()
+    public function update($table, $value, $where)
     {
+        $sql = $this->getSql('update', $table, '', $value, $where);
 
+        $stmt = $this->dbh->query($sql);
+
+        if ($stmt === false) {
+            $errorInfo = $this->dbh->errorInfo();
+            $this->catchError($errorInfo);
+        }
+
+        $res = ($stmt !== false) ? true : false;
+
+        return $res;
     }
 
     public function delete($table, $where, $whereArr)
