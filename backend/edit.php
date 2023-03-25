@@ -24,13 +24,22 @@ $template = 'edit.html.twig';
 $article = new Article($db);
 $getArr = $article->getArticle($_GET['article_id']);
 
-if ($_GET === [] || $_SESSION['res'] === false) {
-    // $_GETのパラメーターがなければ、トップページへリダイレクト
-    header('Location: ' . Bootstrap::ENTRY_URL);
-} else {
-    require_once './article/edit.php';
-}
+if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id']) && $_SESSION['res'] === true) {
+    // article_idをもとに、記事詳細情報を取得
+    $detailArr = $article->getArticle($_GET['article_id']);
 
+    // データが取得できれば、記事編集を表示
+    if ($detailArr !== [] && $detailArr[0]['user_id'] === $_SESSION['user_id']) {
+        // 記事削除処理
+        require_once './article/edit.php';
+    } else {
+        // データが取得できなければ、list.phpへリダイレクト
+        header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
+    }
+} else {
+    // $_GETのパラメーターがなければ、list.phpへリダイレクト
+    header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
+}
 
 $context = [];
 $context['article']['saveArr'] = $getArr[0];

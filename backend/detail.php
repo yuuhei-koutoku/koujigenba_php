@@ -21,16 +21,22 @@ $session->checkSession();
 
 $template = 'detail.html.twig';
 
-if ($_GET === []) {
-    // $_GETのパラメーターがなければ、トップページへリダイレクト
-    header('Location: ' . Bootstrap::ENTRY_URL);
-} else {
+if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id'])) {
     $article = new Article($db);
     // article_idをもとに、記事詳細情報を取得
     $detailArr = $article->getArticle($_GET['article_id']);
 
-    // 記事削除処理
-    require_once './article/delete.php';
+    // データが取得できれば、記事詳細を表示
+    if ($detailArr !== []) {
+        // 記事削除処理
+        require_once './article/delete.php';
+    } else {
+        // データが取得できなければ、list.phpへリダイレクト
+        header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
+    }
+} else {
+    // $_GETのパラメーターがなければ、list.phpへリダイレクト
+    header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
 }
 
 $context = [];

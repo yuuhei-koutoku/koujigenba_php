@@ -26,7 +26,7 @@ class Bootstrap
 
     const APP_URL = 'http://localhost:8888/';
 
-    const ENTRY_URL = self::APP_URL . 'koujigenba_php/';
+    const ENTRY_URL = self::APP_URL . 'koujigenba_php/backend/';
 
     public static function loadClass($class)
     {

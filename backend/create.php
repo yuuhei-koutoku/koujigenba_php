@@ -24,8 +24,8 @@ $template = 'create.html.twig';
 $createArr = [];
 
 if ($_SESSION['res'] === false) {
-    // セッションがなければ、トップページへリダイレクト
-    header('Location: ' . Bootstrap::ENTRY_URL);
+    // セッションがなければ、list.phpへリダイレクト
+    header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
 } else {
     require_once './article/create.php';
 }
