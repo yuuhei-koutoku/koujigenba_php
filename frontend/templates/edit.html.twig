@@ -3,10 +3,6 @@
 {% set title = '記事編集' %}
 
 {% block content %}
-  <h1>記事編集</h1>
-
-  <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}list.php">トップページ</a>
-
   <form method="post" action="list.php" enctype="multipart/form-data">
     {% include 'form.html.twig' %}
     <div>

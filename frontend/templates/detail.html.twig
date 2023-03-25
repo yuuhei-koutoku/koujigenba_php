@@ -3,7 +3,6 @@
 {% set title = '記事詳細' %}
 
 {% block content %}
-  <h1>記事詳細</h1>
   {{article.detailArr.title}}
   {% if article.detailArr.image != '' %}
     <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/upload/{{article.detailArr.image}}" width="255" height="143" alt="{{article.detailArr.image}}" />
@@ -12,7 +11,7 @@
   {{article.detailArr.last_name}}
   {{article.detailArr.first_name}}
   {{article.detailArr.created_at}}
-  <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}list.php">トップページ</a>
+
   {% if article.detailArr.user_id == session.user_id %}
     <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.detailArr.id}}">[編集]</a>
     <form method="post" action="list.php">
