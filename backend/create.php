@@ -7,7 +7,6 @@ require_once dirname(__FILE__) . '/Bootstrap.class.php';
 use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
 use koujigenba_php\backend\lib\Session;
-use koujigenba_php\backend\lib\Article;
 
 $db = new PDODatabase(Bootstrap::DB_HOST, Bootstrap::DB_USER, Bootstrap::DB_PASS, Bootstrap::DB_NAME, Bootstrap::DB_TYPE);
 $session = new Session($db);
@@ -27,10 +26,12 @@ if ($_SESSION['res'] === false) {
     // セッションがなければ、list.phpへリダイレクト
     header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
 } else {
+    // 記事投稿処理
     require_once './article/create.php';
 }
 
 $context = [];
 $context['article']['saveArr'] = $createArr;
+$context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);
 $template->display($context);

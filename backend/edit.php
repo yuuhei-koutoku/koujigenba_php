@@ -44,5 +44,6 @@ if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id']) && 
 $context = [];
 $context['article']['saveArr'] = $getArr[0];
 $context['article']['article_id'] = $_GET['article_id'];
+$context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);
 $template->display($context);
