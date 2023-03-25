@@ -3,9 +3,6 @@
 {% set title = '新規投稿' %}
 
 {% block content %}
-  <h1>新規投稿</h1>
-  <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}">トップページ</a><br><br>
-
   {% if success_message | length > 0 %}{{success_message}}{% endif %}
   {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
