@@ -44,40 +44,26 @@ if ($_SESSION['res'] === true) {
     // セッションがある場合
 
     // 記事投稿処理
-    if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL) {
-        // URLが http://localhost:8888/koujigenba_php/ の場合
+    require_once './article/create.php';
 
-        // 記事削除処理
-        require_once './backend/article/delete.php';
+    // 記事編集処理
+    require_once './article/edit.php';
 
-        // ログアウト処理
-        require_once './backend/auth/logout.php';
-    } else {
-        // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合
+    // 記事削除処理
+    require_once './article/delete.php';
 
-        // 記事投稿処理
-        require_once './article/create.php';
+    // ログアウト処理
+    require_once './auth/logout.php';
 
-        // 記事編集処理
-        require_once './article/edit.php';
-
-        // 記事削除処理
-        require_once './article/delete.php';
-
-        // ログアウト処理
-        require_once './auth/logout.php';
-    }
 } else {
     // セッションがない場合
 
-    // URLが http://localhost:8888/koujigenba_php/backend/list.php の場合のみ読み込む
-    if ((empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] === Bootstrap::ENTRY_URL . 'backend/list.php') {
-        // アカウント登録処理
-        require_once './auth/regist.php';
+    // アカウント登録処理
+    require_once './auth/regist.php';
 
-        // ログイン処理
-        require_once './auth/login.php';
-    }
+    // ログイン処理
+    require_once './auth/login.php';
+
 }
 
 // 記事一覧データを取得
