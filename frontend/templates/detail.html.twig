@@ -3,20 +3,69 @@
 {% set title = '記事詳細' %}
 
 {% block content %}
-  {{article.detailArr.title}}
-  {% if article.detailArr.image != '' %}
-    <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/upload/{{article.detailArr.image}}" width="255" height="143" alt="{{article.detailArr.image}}" />
-  {% endif %}
-  {{article.detailArr.content}}
-  {{article.detailArr.last_name}}
-  {{article.detailArr.first_name}}
-  {{article.detailArr.created_at}}
+  <div class="container">
+    <div class="row">
+      <div class="col">
 
-  {% if article.detailArr.user_id == session.user_id %}
-    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.detailArr.id}}">[編集]</a>
-    <form method="post" action="list.php">
-      <input type="hidden" name="article_id" value="{{article.detailArr.id}}">
-      <button type="submit" name="delete" value="delete">削除</button>
-    </form>
+        {# タイトル #}
+        <h3>{{article.detailArr.title}}</h3>
+
+        {# 画像 #}
+        {% if article.detailArr.image != '' %}
+          <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/upload/{{article.detailArr.image}}" class="img-fluid" alt="{{article.detailArr.image}}" />
+        {% endif %}
+
+        {# 本文 #}
+        <div>
+          {{article.detailArr.content}}
+        </div>
+
+        {# 投稿者名 #}
+        <div>
+          投稿者名：{{article.detailArr.last_name}} {{article.detailArr.first_name}}
+        </div>
+
+        {# 作成日時 #}
+        <div>
+          作成日時：{{article.detailArr.created_at}}
+        </div>
+
+
+        {% if article.detailArr.user_id == session.user_id %}
+
+          {# 編集ボタン #}
+          <button type="button" class="btn btn-primary" onclick="location.href='{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.detailArr.id}}'">編集</button>
+
+          {# 削除ボタン #}
+          <form method="post" action="list.php">
+            <input type="hidden" name="article_id" value="{{article.detailArr.id}}">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal">
+              削除
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">記事削除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-center">
+                    本当に削除してもよろしいですか？
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="submit" class="btn btn-danger" name="delete" value="delete">削除する</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   {% endif %}
 {% endblock %}
