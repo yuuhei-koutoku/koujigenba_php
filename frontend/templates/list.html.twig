@@ -3,29 +3,90 @@
 {% set title = '記事一覧' %}
 
 {% block content %}
-  {% if success_message | length > 0 %}{{success_message}}{% endif %}
-  {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
-  {% for article in article.listArr %}
-    {% if article.image == '' %}
-      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}">
-        <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/no_image.jpg" width="255" height="143" alt="{{article.image}}" />
-      </a>
-    {% else %}
-      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}">
-        <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/upload/{{article.image}}" width="255" height="143" alt="{{article.image}}" />
-      </a>
+<div class="container">
+  <div class="row">
+
+    {# サクセスメッセージを表示 #}
+    {% if success_message | length > 0 %}
+      <div class="col-12">
+        <div class="my-2 alert alert-primary" role="alert">
+          {% if success_message | length > 0 %}{{success_message}}{% endif %}
+        </div>
+      </div>
     {% endif %}
-    <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}">{{article.title}}</a>
-    投稿者名：{{article.last_name}}&nbsp;{{article.first_name}}
-    作成日:{{article.created_at}}
-    {% if article.user_id == session.user_id %}
-      <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.id}}">[編集]</a>
-      <form method="post" action="">
-        <input type="hidden" name="article_id" value="{{article.id}}">
-        <button type="submit" name="delete" value="delete">削除</button>
-      </form>
-    {% endif %}
-    <br>
-  {% endfor %}
+
+    {% for article in article.listArr %}
+      <div class="col-4 my-2">
+
+        {# 画像 #}
+        {% if article.image == '' %}
+          <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}">
+            <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/no_image.jpg" width="255" height="143" alt="{{article.image}}" />
+          </a>
+        {% else %}
+          <a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}">
+            <img src="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}images/upload/{{article.image}}" width="255" height="143" alt="{{article.image}}" />
+          </a>
+        {% endif %}
+
+      </div>
+      <div class="col-8 my-2">
+
+        {# タイトル #}
+        <div>
+          <h3><a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}detail.php?article_id={{article.id}}" class="text-secondary">{{article.title}}</a></h3>
+        </div>
+
+        {# 投稿者名 #}
+        <div>
+          投稿者名：{{article.last_name}}&nbsp;{{article.first_name}}
+        </div>
+
+        {# 作成日時 #}
+        <div>
+          作成日時:{{article.created_at}}
+        </div>
+
+        {% if article.user_id == session.user_id %}
+
+          {# 編集ボタン #}
+          <button type="button" class="btn btn-primary" onclick="location.href='{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.id}}'">編集</button>
+
+          {# 削除ボタン #}
+          <form method="post" action="">
+            <input type="hidden" name="article_id" value="{{article.id}}">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Modal">
+              削除
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">記事削除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-center">
+                    本当に削除してもよろしいですか？
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                    <button type="submit" class="btn btn-danger" name="delete" value="delete">削除する</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+
 {% endblock %}
