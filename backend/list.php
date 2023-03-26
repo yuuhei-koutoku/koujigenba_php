@@ -33,7 +33,7 @@ $loginErrArr = [];
 $createArr = [];
 $editArr = [];
 $submitErrArr = [];
-$submitErrArr = [];
+$imageErrArr = [];
 
 $success_message = '';
 $error_message = '';
@@ -80,7 +80,7 @@ $context['loginErrArr'] = $loginErrArr;
 $context['article']['listArr'] = $listArr;
 $context['article']['saveArr'] = ($editArr === []) ? $createArr : $editArr;
 $context['articleErr']['submitArr'] = $submitErrArr;
-$context['articleErr']['imageArr'] = $submitErrArr;
+$context['articleErr']['imageArr'] = $imageErrArr;
 
 $context['session'] = $_SESSION;
 
