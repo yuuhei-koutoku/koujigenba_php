@@ -3,27 +3,47 @@
 {% set title = 'ログイン' %}
 
 {% block content %}
-  {% if success_message | length > 0 %}{{success_message}}{% endif %}
-  {% if error_message | length > 0 %}{{error_message}}{% endif %}
 
-  <form method="post" action="list.php">
-    <div>
-      <label for="email">メールアドレス</label>
-      <input type="email" id="email" name="email" value="{{loginArr.email}}">
-    </div>
-    {% if loginErrArr.email | length > 0 %}{{loginErrArr.email}}{% endif %}
-    <div>
-      <label for="password">パスワード</label>
-      <input type="password" id="password" name="password" value="{{loginArr.password}}">
-    </div>
-    {% if loginErrArr.password | length > 0 %}{{loginErrArr.password}}{% endif %}
-    {% if loginErrArr.authentication | length > 0 %}{{loginErrArr.authentication}}{% endif %}
-    <div>
-      <button type="submit" name="login" value="login">ログイン</button>
-    </div>
-  </form>
+  <div class="container mt-3">
+    <div class="row">
+      <div class="offset-1 col-10">
 
-  <p>
-    ユーザー登録は<a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}regist.php">こちら</a>
-  </p>
+      {# エラーメッセージを表示 #}
+      {% if error_message | length > 0 %}
+        <div class="alert alert-danger" role="alert">
+          {{error_message}}<br>
+          {% if loginErrArr.email | length > 0 %}・{{loginErrArr.email}}<br>{% endif %}
+          {% if loginErrArr.password | length > 0 %}・{{loginErrArr.password}}<br>{% endif %}
+          {% if loginErrArr.authentication | length > 0 %}・{{loginErrArr.authentication}}<br>{% endif %}
+        </div>
+      {% endif %}
+
+      <form method="post" action="list.php">
+
+        {# メールアドレス 入力フォーム #}
+        <div class="mb-3">
+          <label for="email" class="form-label">メールアドレス</label>
+          <input type="email" class="form-control" id="email" name="email" value="{{loginArr.email}}" placeholder="name@example.com">
+        </div>
+
+        {# パスワード 入力フォーム #}
+        <div class="mb-3">
+          <label for="password" class="form-label">パスワード</label>
+          <input type="password" class="form-control" id="password" name="password" value="{{loginArr.password}}">
+        </div>
+
+        <div class="text-center">
+          {# ログイン ボタン #}
+          <button type="submit" class="btn btn-primary" name="login" value="login">ログイン</button>
+          {# ユーザー登録へのリンク #}
+          <p class="form-text">
+            ユーザー登録は<a href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}regist.php">こちら</a>
+          </p>
+        </div>
+      </form>
+
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
