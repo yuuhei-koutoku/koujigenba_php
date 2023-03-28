@@ -18,17 +18,26 @@ $twig = new \Twig_Environment($loader, [
     'cache' => Bootstrap::CACHE_DIR
 ]);
 
-$get_user_info = $user->getUserInfo($_SESSION['user_id']);
-$user_info = [
-    'id' => $get_user_info[0],
-    'last_name' => $get_user_info[1],
-    'first_name' => $get_user_info[2],
-    'email' => $get_user_info[3]
-];
+$session->checkSession();
+
+$template = 'mypage.html.twig';
+
+if ($_SESSION['res'] === false) {
+    // セッションがなければ、list.phpへリダイレクト
+    header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
+} else {
+    // セッションがあれば、マイページ（ログインしたユーザーの情報）を出力
+    $get_user_info = $user->getUserInfo($_SESSION['user_id']);
+    $user_info = [
+        'id' => $get_user_info[0],
+        'last_name' => $get_user_info[1],
+        'first_name' => $get_user_info[2],
+        'email' => $get_user_info[3]
+    ];
+}
 
 $context = [];
 $context['user_info'] = $user_info;
-$template = 'mypage.html.twig';
-
+$context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);
 $template->display($context);
