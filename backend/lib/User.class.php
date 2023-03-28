@@ -11,6 +11,21 @@ class User
         $this->db = $db;
     }
 
+    public function getUserInfo($user_id)
+    {
+        $table = ' users ';
+        $where = ' id = ' . $user_id;
+
+        $res = $this->db->select($table, '', $where);
+
+        $id = $res[0]['id'];
+        $last_name = $res[0]['last_name'];
+        $first_name = $res[0]['first_name'];
+        $email = $res[0]['email'];
+
+        return [$id, $last_name, $first_name, $email];
+    }
+
     public function getUserId($email)
     {
         $columnKey = ' id ';

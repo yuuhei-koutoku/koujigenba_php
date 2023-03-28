@@ -1,0 +1,23 @@
+{% extends "app.html.twig" %}
+
+{% set title = 'マイページ' %}
+
+{% block content %}
+
+<div>
+  ユーザーID：{{user_info.id}}
+</div>
+<div>
+  姓：{{user_info.last_name}}
+</div>
+<div>
+  名：{{user_info.first_name}}
+</div>
+<div>
+  メールアドレス：{{user_info.email}}
+</div>
+<div>
+  パスワード：********
+</div>
+
+{% endblock %}
