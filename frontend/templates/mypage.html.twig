@@ -4,6 +4,15 @@
 
 {% block content %}
 
+{% if success_message | length > 0 %}
+  {{success_message}}
+{% endif %}
+
+{% if error_message | length > 0 %}
+  {{error_message}}<br>
+  {% if errArr.email | length > 0 %}・{{errArr.email}}<br>{% endif %}
+{% endif %}
+
 <div>
   ユーザーID：{{user_info.id}}
 </div>
@@ -15,6 +24,13 @@
 </div>
 <div>
   メールアドレス：{{user_info.email}}
+</div>
+<div>
+  <form method="post" action="">
+    <label for="email">メールアドレス変更</label>
+    <input type="email" id="email" name="email" value="{{dataArr.email}}" placeholder="name@example.com">
+    <button type="submit" name="email_update" value="email_update">変更する</button>
+  </form>
 </div>
 <div>
   パスワード：********

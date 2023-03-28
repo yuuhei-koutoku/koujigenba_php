@@ -58,4 +58,15 @@ class User
 
         return $res;
     }
+
+    public function updateEmail($id, $email)
+    {
+        $table = ' users ';
+        $emailSet = " email = '" . $email . "'";
+        $where = ' id =' . $id;
+
+        $res = $this->db->update($table, $emailSet, $where);
+
+        return $res;
+    }
 }
