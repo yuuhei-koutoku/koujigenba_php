@@ -1,0 +1,59 @@
+{% extends "app.html.twig" %}
+
+{% set title = 'マイページ' %}
+
+{% block content %}
+
+{% if success_message | length > 0 %}
+  {{success_message}}
+{% endif %}
+
+{% if error_message | length > 0 %}
+  {{error_message}}<br>
+  {% if errArr.email | length > 0 %}・{{errArr.email}}<br>{% endif %}
+  {% if errArr.password.current_password | length > 0 %}・{{errArr.password.current_password}}<br>{% endif %}
+  {% if errArr.password.new_password | length > 0 %}・{{errArr.password.new_password}}<br>{% endif %}
+  {% if errArr.password.new_password_confirmation | length > 0 %}・{{errArr.password.new_password_confirmation}}<br>{% endif %}
+{% endif %}
+
+<div>
+  ユーザーID：{{user_info.id}}
+</div>
+<div>
+  姓：{{user_info.last_name}}
+</div>
+<div>
+  名：{{user_info.first_name}}
+</div>
+<div>
+  メールアドレス：{{user_info.email}}
+</div>
+<div>
+  <form method="post" action="">
+    <label for="email">メールアドレス変更</label>
+    <input type="email" id="email" name="email" value="{{dataArr.email}}" placeholder="name@example.com">
+    <button type="submit" name="email_update" value="email_update">変更する</button>
+  </form>
+</div>
+<div>
+  パスワード：********
+</div>
+<div>
+  <form method="post" action="">
+    <div>
+      <label for="current_password">現在のパスワード</label>
+      <input type="password" id="current_password" name="current_password" value="{{dataArr.password.current_password}}">
+    </div>
+    <div>
+      <label for="new_password">新しいのパスワード</label>
+      <input type="password" id="new_password" name="new_password" value="{{dataArr.password.new_password}}">
+    </div>
+    <div>
+      <label for="new_password_confirmation">新しいのパスワード（確認）</label>
+      <input type="password" id="new_password_confirmation" name="new_password_confirmation" value="{{dataArr.password.new_password_confirmation}}">
+    </div>
+    <button type="submit" name="password_update" value="password_update">変更する</button>
+  </form>
+</div>
+
+{% endblock %}
