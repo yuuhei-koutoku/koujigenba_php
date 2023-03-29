@@ -28,7 +28,11 @@ $dataArr = [
 ];
 $errArr = [
     'email' => '',
-    'password' => ''
+    'password' => [
+        'current_password' => '',
+        'new_password' => '',
+        'new_password_confirmation' => ''
+    ]
 ];
 
 $session->checkSession();
@@ -45,10 +49,11 @@ if ($_SESSION['res'] === false) {
         'id' => $get_user_info[0],
         'last_name' => $get_user_info[1],
         'first_name' => $get_user_info[2],
-        'email' => $get_user_info[3]
+        'email' => $get_user_info[3],
+        'password' => $get_user_info[4]
     ];
 
-    // パスワード変更
+    // メールアドレス変更
     if (isset($_POST['email_update']) === true) {
         $dataArr['email'] = $_POST['email'];
         $user_update = new UserUpdate();
@@ -62,6 +67,34 @@ if ($_SESSION['res'] === false) {
             $error_message = 'メールアドレスの更新に失敗しました。';
         }
     }
+
+    // パスワード変更
+    if (isset($_POST['password_update']) === true) {
+        $dataArr['password'] = [
+            'current_password' => $_POST['current_password'],
+            'new_password' => $_POST['new_password'],
+            'new_password_confirmation' => $_POST['new_password_confirmation']
+        ];
+        $user_update = new UserUpdate();
+        $errArr['password'] = $user_update->passwordCheck($user_info['password'],
+                                                          $dataArr['password']['current_password'],
+                                                          $dataArr['password']['new_password'],
+                                                          $dataArr['password']['new_password_confirmation'],
+                                                          $user);
+        if ($errArr['password']['current_password'] === '' &&
+            $errArr['password']['new_password'] === '' &&
+            $errArr['password']['new_password_confirmation'] === '') {
+            $user->updatePassword($user_info['id'], $dataArr['password']['new_password']);
+            $success_message = 'パスワードの更新に更新に成功しました。';
+            $dataArr['password'] = [
+                'current_password' => '',
+                'new_password' => '',
+                'new_password_confirmation' => ''
+            ];
+        } else {
+            $error_message = 'パスワードの更新に失敗しました。';
+        }
+    }
 }
 
 $context = [];
@@ -69,6 +102,7 @@ $context = [];
 $context['user_info'] = $user_info;
 
 $context['dataArr']['email'] = $dataArr['email'];
+$context['dataArr']['password'] = $dataArr['password'];
 
 $context['session'] = $_SESSION;
 
@@ -76,6 +110,7 @@ $context['success_message'] = $success_message;
 $context['error_message'] = $error_message;
 
 $context['errArr']['email'] = $errArr['email'];
+$context['errArr']['password'] = $errArr['password'];
 
 $template = $twig->loadTemplate($template);
 $template->display($context);

@@ -25,4 +25,29 @@ class UserUpdate
         return $email_error;
     }
 
+    public function passwordCheck($current_password_hash, $current_password, $new_password, $new_password_confirmation)
+    {
+        $password_error = [
+            'current_password' => '',
+            'new_password' => '',
+            'new_password_confirmation' => ''
+        ];
+        if ($current_password === '') {
+            $password_error['current_password'] = '現在のパスワードを入力してください。';
+        } elseif (password_verify($current_password, $current_password_hash) === false) {
+            $password_error['current_password'] = '現在のパスワードが間違っています。';
+        }
+        if ($new_password === '') {
+            $password_error['new_password'] = '新しいパスワードを入力してください。';
+        } elseif (preg_match('/^[a-zA-Z0-9.?\/-]{8,16}$/', $new_password) === 0) {
+            $password_error['new_password'] = '新しいパスワードは8文字以上16文字以下で入力してください。';
+        }
+        if ($new_password_confirmation === '') {
+            $password_error['new_password_confirmation'] = '新しいパスワード（確認）を入力してください。';
+        } elseif ($new_password !== $new_password_confirmation) {
+            $password_error['new_password_confirmation'] = '新しいパスワードと新しいパスワード（確認）が一致しません。';
+        }
+
+        return $password_error;
+    }
 }

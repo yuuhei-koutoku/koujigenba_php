@@ -22,8 +22,9 @@ class User
         $last_name = $res[0]['last_name'];
         $first_name = $res[0]['first_name'];
         $email = $res[0]['email'];
+        $password = $res[0]['password'];
 
-        return [$id, $last_name, $first_name, $email];
+        return [$id, $last_name, $first_name, $email, $password];
     }
 
     public function getUserId($email)
@@ -66,6 +67,17 @@ class User
         $where = ' id =' . $id;
 
         $res = $this->db->update($table, $emailSet, $where);
+
+        return $res;
+    }
+
+    public function updatePassword($id, $password) {
+        $table = ' users ';
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $passwordSet = " password = '" . $password_hash . "'";
+        $where = ' id =' . $id;
+
+        $res = $this->db->update($table, $passwordSet, $where);
 
         return $res;
     }
