@@ -46,11 +46,11 @@ if ($_SESSION['res'] === false) {
     // セッションがあれば、マイページ（ログインしたユーザーの情報）を出力
     $get_user_info = $user->getUserInfo($_SESSION['user_id']);
     $user_info = [
-        'id' => $get_user_info[0],
-        'last_name' => $get_user_info[1],
-        'first_name' => $get_user_info[2],
-        'email' => $get_user_info[3],
-        'password' => $get_user_info[4]
+        'id' => $get_user_info[0]['id'],
+        'last_name' => $get_user_info[0]['last_name'],
+        'first_name' => $get_user_info[0]['first_name'],
+        'email' => $get_user_info[0]['email'],
+        'password' => $get_user_info[0]['password']
     ];
 
     // メールアドレス変更

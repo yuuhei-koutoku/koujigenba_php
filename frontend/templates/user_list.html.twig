@@ -1,0 +1,13 @@
+{% extends "app.html.twig" %}
+
+{% set title = 'ユーザー一覧' %}
+
+{% block content %}
+
+{% for user in user_list %}
+  ID：{{user.id}}<br>
+  名前：{{user.last_name}} {{user.first_name}}<br>
+  メールアドレス：{{user.email}}<br><br>
+{% endfor %}
+
+{% endblock %}
