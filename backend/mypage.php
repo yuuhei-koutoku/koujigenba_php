@@ -44,14 +44,9 @@ if ($_SESSION['res'] === false) {
     header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
 } else {
     // セッションがあれば、マイページ（ログインしたユーザーの情報）を出力
-    $get_user_info = $user->getUserInfo($_SESSION['user_id']);
-    $user_info = [
-        'id' => $get_user_info[0]['id'],
-        'last_name' => $get_user_info[0]['last_name'],
-        'first_name' => $get_user_info[0]['first_name'],
-        'email' => $get_user_info[0]['email'],
-        'password' => $get_user_info[0]['password']
-    ];
+
+    // ログインユーザーの情報を取得
+    require_once './auth/user_info.php';
 
     // メールアドレス変更
     if (isset($_POST['email_update']) === true) {
