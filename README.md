@@ -103,6 +103,9 @@ composer install
 -- データベースを作成する
 CREATE DATABASE koujigenba_db DEFAULT CHARACTER SET utf8;
 
+-- 作成したデータベースのみ使用できるユーザーを作成し、パスワードも設定する
+GRANT ALL PRIVILEGES ON koujigenba_db.* TO koujigenba_user@'localhost' IDENTIFIED BY 'koujigenba_pass' WITH GRANT OPTION;
+
 -- ユーザーテーブル
 CREATE TABLE users (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -110,6 +113,8 @@ CREATE TABLE users (
   first_name VARCHAR(30) NOT NULL,
   email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
+  admin TINYINT(1) UNSIGNED NOT NULL,
+  delete_flg TINYINT(1) UNSIGNED NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
