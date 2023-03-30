@@ -58,7 +58,7 @@ class User
     {
         $table = ' users ';
         $emailSet = " email = '" . $email . "'";
-        $where = ' id =' . $id;
+        $where = ' id = ' . $id;
 
         $res = $this->db->update($table, $emailSet, $where);
 
@@ -69,9 +69,21 @@ class User
         $table = ' users ';
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $passwordSet = " password = '" . $password_hash . "'";
-        $where = ' id =' . $id;
+        $where = ' id = ' . $id;
 
         $res = $this->db->update($table, $passwordSet, $where);
+
+        return $res;
+    }
+
+    public function updatePermission($user_id, $admin, $delete_flg) {
+        $table = ' users ';
+        $adminSet = ' admin = ' . $admin;
+        $deleteFlgSet = ' delete_flg = ' . $delete_flg;
+        $valueSet = $adminSet . ', ' . $deleteFlgSet;
+        $where = ' id = ' . $user_id;
+
+        $res = $this->db->update($table, $valueSet, $where);
 
         return $res;
     }

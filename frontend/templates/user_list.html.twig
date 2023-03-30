@@ -4,10 +4,53 @@
 
 {% block content %}
 
-{% for user in user_list %}
-  ID：{{user.id}}<br>
-  名前：{{user.last_name}} {{user.first_name}}<br>
-  メールアドレス：{{user.email}}<br><br>
-{% endfor %}
+  {# サクセスメッセージを表示 #}
+  {% if success_message | length > 0 %}
+    {{success_message}}
+  {% endif %}
+
+  <table>
+    <tr>
+      <th rowspan="2">ID</th>
+      <th rowspan="2">名前</th>
+      <th rowspan="2">メールアドレス</th>
+      <th colspan="2">管理者/通常ユーザー</th>
+      <th colspan="2">有効/無効</th>
+      <th rowspan="2">更新</th>
+    </tr>
+    <tr>
+      <th>通常ユーザー</th>
+      <th>管理者</th>
+      <th>有効</th>
+      <th>無効</th>
+    </tr>
+    {% for num, user in user_list %}
+      <form method="post" action="">
+        <tr>
+          <td>{{user.id}}</td>
+          <td>{{user.last_name}} {{user.first_name}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <input type="radio" name="admin_{{user.id}}" value="0" {% if user.admin == 0 %}checked{% endif %}>
+          </td>
+          <td>
+            <input type="radio" name="admin_{{user.id}}" value="1" {% if user.admin == 1 %}checked{% endif %}>
+          </td>
+          <td>
+            <input type="radio" name="delete_flg_{{user.id}}" value="0" {% if user.delete_flg == 0 %}checked{% endif %}>
+          </td>
+          <td>
+            <input type="radio" name="delete_flg_{{user.id}}" value="1" {% if user.delete_flg == 1 %}checked{% endif %}>
+          </td>
+          <input type="hidden" name="user_id" value={{user.id}}>
+          <input type="hidden" name="num" value={{num}}>
+          <td>
+            <button type="submit" name="update" value="update">更新</button>
+          </td>
+        </tr>
+      </form>
+    {% endfor %}
+  </table>
+
 
 {% endblock %}
