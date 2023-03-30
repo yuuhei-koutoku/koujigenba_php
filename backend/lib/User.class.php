@@ -76,6 +76,16 @@ class User
         return $res;
     }
 
+    public function updateDeleteFlg($user_id) {
+        $table = ' users ';
+        $deleteFlgSet = ' delete_flg = 1';
+        $where = ' id = ' . $user_id;
+
+        $res = $this->db->update($table, $deleteFlgSet, $where);
+
+        return $res;
+    }
+
     public function updatePermission($user_id, $admin, $delete_flg) {
         $table = ' users ';
         $adminSet = ' admin = ' . $admin;

@@ -14,12 +14,14 @@ class Auth
     public function regist($dataArr)
     {
         $dataArr['password_hash'] = password_hash($dataArr['password'], PASSWORD_DEFAULT);
-        $columnKey = 'last_name, first_name, email, password, created_at, updated_at';
+        $columnKey = 'last_name, first_name, email, password, admin, delete_flg, created_at, updated_at';
         $columnVal = "'"
                    . $dataArr['last_name'] . "', '"
                    . $dataArr['first_name'] . "', '"
                    . $dataArr['email'] . "', '"
                    . $dataArr['password_hash'] . "', "
+                   . 0 . ", "
+                   . 0 . ", "
                    . 'NOW()' . ", "
                    . 'NOW()';
         $table = ' users ';

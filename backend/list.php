@@ -60,6 +60,9 @@ if ($_SESSION['res'] === true) {
     // ログアウト処理
     require_once './auth/logout.php';
 
+    // 退会処理
+    require_once './auth/delete_flg.php';
+
 } else {
     // セッションがない場合
 
@@ -93,6 +96,6 @@ $context['session'] = $_SESSION;
 
 $context['success_message'] = $success_message;
 $context['error_message'] = $error_message;
-// echo '<pre>';var_dump($context);echo '</pre>';
+
 $template = $twig->loadTemplate($template);
 $template->display($context);
