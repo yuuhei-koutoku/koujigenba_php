@@ -37,8 +37,7 @@ class User
         $table = ' users ';
         $where = " email = '" . $email . "'";
 
-        $check_email = $this->db->select($table, '', $where);
-        $res = ($check_email === []) ? true : false;
+        $res = $this->db->select($table, '', $where);
 
         return $res;
     }

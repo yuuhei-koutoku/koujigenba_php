@@ -11,17 +11,17 @@ class Login
     {
     }
 
-    public function errorCheck($loginArr, $auth)
+    public function errorCheck($loginArr, $user)
     {
         $this->dataArr = $loginArr;
         $this->createErrorMessage();
 
-        $this->emailCheck();
+        $this->emailCheck($user);
         $this->passwordCheck();
 
         $loginErrArr = $this->errArr;
         if ($loginErrArr['email'] === '' && $loginErrArr['password'] === '') {
-            $this->authenticationCheck($auth);
+            $this->authenticationCheck($user);
         }
 
         return $this->errArr;
@@ -35,12 +35,15 @@ class Login
         unset($this->errArr['password_confirmation']);
     }
 
-    private function emailCheck()
+    private function emailCheck($user)
     {
+        $check_email = $user->checkEmail($this->dataArr['email']);
         if ($this->dataArr['email'] === '') {
             $this->errArr['email'] = 'メールアドレスを入力してください。';
         } elseif (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+[a-zA-Z0-9\._-]+$/', $this->dataArr['email']) === 0) {
             $this->errArr['email'] = 'メールアドレスを正しい形式で入力してください。';
+        } elseif ($check_email[0]['delete_flg'] === 1) {
+            $this->errArr['email'] = 'このメールアドレスで登録されたアカウントは退会済みです。アカウントを復元する場合は、運営へ問い合わせてください。';
         }
     }
 
@@ -53,11 +56,11 @@ class Login
         }
     }
 
-    public function authenticationCheck($auth)
+    public function authenticationCheck($user)
     {
         $password = $this->dataArr['password'];
         $email = $this->dataArr['email'];
-        $passwordArr = $auth->getPassword($email);
+        $passwordArr = $user->getPassword($email);
 
         $password_hash = '';
         if ($passwordArr !== []) $password_hash = $passwordArr[0]['password'];
