@@ -37,8 +37,7 @@ class User
         $table = ' users ';
         $where = " email = '" . $email . "'";
 
-        $check_email = $this->db->select($table, '', $where);
-        $res = ($check_email === []) ? true : false;
+        $res = $this->db->select($table, '', $where);
 
         return $res;
     }
@@ -72,6 +71,16 @@ class User
         $where = ' id = ' . $id;
 
         $res = $this->db->update($table, $passwordSet, $where);
+
+        return $res;
+    }
+
+    public function updateDeleteFlg($user_id) {
+        $table = ' users ';
+        $deleteFlgSet = ' delete_flg = 1';
+        $where = ' id = ' . $user_id;
+
+        $res = $this->db->update($table, $deleteFlgSet, $where);
 
         return $res;
     }

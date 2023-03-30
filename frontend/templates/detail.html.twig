@@ -22,7 +22,11 @@
 
         {# 投稿者名 #}
         <div>
-          投稿者名：{{article.detailArr.last_name}} {{article.detailArr.first_name}}
+          {% if article.detailArr.delete_flg == 0 %}
+            投稿者名：{{article.detailArr.last_name}} {{article.detailArr.first_name}}
+          {% else %}
+            退会済みユーザー
+          {% endif %}
         </div>
 
         {# 作成日時 #}
