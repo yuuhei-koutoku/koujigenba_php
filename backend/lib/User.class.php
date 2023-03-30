@@ -11,20 +11,14 @@ class User
         $this->db = $db;
     }
 
-    public function getUserInfo($user_id)
+    public function getUserInfo($user_id = '')
     {
         $table = ' users ';
-        $where = ' id = ' . $user_id;
+        $where = ($user_id !== '') ? ' id = ' . $user_id : '';
 
         $res = $this->db->select($table, '', $where);
 
-        $id = $res[0]['id'];
-        $last_name = $res[0]['last_name'];
-        $first_name = $res[0]['first_name'];
-        $email = $res[0]['email'];
-        $password = $res[0]['password'];
-
-        return [$id, $last_name, $first_name, $email, $password];
+        return $res;
     }
 
     public function getUserId($email)
@@ -64,7 +58,7 @@ class User
     {
         $table = ' users ';
         $emailSet = " email = '" . $email . "'";
-        $where = ' id =' . $id;
+        $where = ' id = ' . $id;
 
         $res = $this->db->update($table, $emailSet, $where);
 
@@ -75,9 +69,21 @@ class User
         $table = ' users ';
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $passwordSet = " password = '" . $password_hash . "'";
-        $where = ' id =' . $id;
+        $where = ' id = ' . $id;
 
         $res = $this->db->update($table, $passwordSet, $where);
+
+        return $res;
+    }
+
+    public function updatePermission($user_id, $admin, $delete_flg) {
+        $table = ' users ';
+        $adminSet = ' admin = ' . $admin;
+        $deleteFlgSet = ' delete_flg = ' . $delete_flg;
+        $valueSet = $adminSet . ', ' . $deleteFlgSet;
+        $where = ' id = ' . $user_id;
+
+        $res = $this->db->update($table, $valueSet, $where);
 
         return $res;
     }
