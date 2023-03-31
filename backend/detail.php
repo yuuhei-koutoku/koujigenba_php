@@ -21,6 +21,8 @@ $twig = new \Twig_Environment($loader, [
 
 $session->checkSession();
 
+$user_info = [];
+
 $template = 'detail.html.twig';
 
 if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id'])) {
@@ -28,16 +30,17 @@ if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id'])) {
     // article_idをもとに、記事詳細情報を取得
     $detailArr = $article->getArticle($_GET['article_id']);
 
-    // データが取得できれば、記事詳細を表示
-    if ($detailArr !== []) {
+    if ($detailArr === []) {
+        // データが取得できなければ、list.phpへリダイレクト
+        header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
+    }
+
+    if ($_SESSION['res'] === true) {
         // 記事削除処理
         require_once './article/delete.php';
 
         // ログインユーザーの情報を取得
         require_once './auth/user_info.php';
-    } else {
-        // データが取得できなければ、list.phpへリダイレクト
-        header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
     }
 } else {
     // $_GETのパラメーターがなければ、list.phpへリダイレクト
