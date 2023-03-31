@@ -4,63 +4,181 @@
 
 {% block content %}
 
-{% if success_message | length > 0 %}
-  {{success_message}}
-{% endif %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
 
-{% if error_message | length > 0 %}
-  {{error_message}}<br>
-  {% if errArr.email | length > 0 %}・{{errArr.email}}<br>{% endif %}
-  {% if errArr.password.current_password | length > 0 %}・{{errArr.password.current_password}}<br>{% endif %}
-  {% if errArr.password.new_password | length > 0 %}・{{errArr.password.new_password}}<br>{% endif %}
-  {% if errArr.password.new_password_confirmation | length > 0 %}・{{errArr.password.new_password_confirmation}}<br>{% endif %}
-{% endif %}
+      {# サクセスメッセージ #}
+      {% if success_message | length > 0 %}
+        <div class="my-2 alert alert-primary" role="alert">
+          {{success_message}}
+        </div>
+      {% endif %}
 
-<div>
-  ユーザーID：{{user_info.id}}
-</div>
-<div>
-  姓：{{user_info.last_name}}
-</div>
-<div>
-  名：{{user_info.first_name}}
-</div>
-<div>
-  メールアドレス：{{user_info.email}}
-</div>
-<div>
-  <form method="post" action="">
-    <label for="email">メールアドレス変更</label>
-    <input type="email" id="email" name="email" value="{{dataArr.email}}" placeholder="name@example.com">
-    <button type="submit" name="email_update" value="email_update">変更する</button>
-  </form>
-</div>
-<div>
-  パスワード：********
-</div>
-<div>
-  <form method="post" action="">
-    <div>
-      <label for="current_password">現在のパスワード</label>
-      <input type="password" id="current_password" name="current_password" value="{{dataArr.password.current_password}}">
+      {# エラーメッセージ #}
+      {% if error_message | length > 0 %}
+        <div class="alert alert-danger" role="alert">
+          {{error_message}}<br>
+          {% if errArr.email | length > 0 %}・{{errArr.email}}<br>{% endif %}
+          {% if errArr.password.current_password | length > 0 %}・{{errArr.password.current_password}}<br>{% endif %}
+          {% if errArr.password.new_password | length > 0 %}・{{errArr.password.new_password}}<br>{% endif %}
+          {% if errArr.password.new_password_confirmation | length > 0 %}・{{errArr.password.new_password_confirmation}}<br>{% endif %}
+        </div>
+      {% endif %}
+
+      <table border="1px" class="table">
+
+        {# ユーザーID #}
+        <tr>
+          <td>
+            ユーザーID
+          </td>
+          <td colspan="2">
+            {{user_info.id}}
+          </td>
+        </tr>
+
+        {# 姓 #}
+        <tr>
+          <td>
+            姓
+          </td>
+          <td colspan="2">
+            {{user_info.last_name}}
+          </td>
+        </tr>
+
+        {# 名 #}
+        <tr>
+          <td>
+            名
+          </td>
+          <td colspan="2">
+            {{user_info.first_name}}
+          </td>
+        </tr>
+
+        {# メールアドレス #}
+        <tr>
+          <td>
+            メールアドレス
+          </td>
+          <td>
+            {{user_info.email}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#emailModal">
+              メールアドレス変更
+            </button>
+
+            <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="emailModalLabel">メールアドレス変更</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form method="post" action="">
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="update-email" class="col-form-label">新しいメールアドレス</label>
+                        <input type="email" class="form-control" id="update-email" name="email" value="{{dataArr.email}}" placeholder="name@example.com">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                      <button type="submit" class="btn btn-warning" name="email_update" value="email_update">変更する</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        {# パスワード #}
+        <tr>
+          <td>
+            パスワード
+          </td>
+          <td>
+            ********
+          </td>
+          <td>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#passwordModal">
+              パスワード変更
+            </button>
+
+            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">パスワード変更</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form method="post" action="">
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="current_password" class="col-form-label">現在のパスワード</label>
+                        <input type="password" class="form-control" id="current_password" name="current_password" value="{{dataArr.password.current_password}}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="new_password" class="col-form-label">新しいパスワード</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" value="{{dataArr.password.new_password}}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="new_password_confirmation" class="col-form-label">新しいパスワード（確認）</label>
+                        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" value="{{dataArr.password.new_password_confirmation}}">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                      <button type="submit" class="btn btn-warning" name="password_update" value="password_update">変更する</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        {# 退会 #}
+        <tr>
+          <td>
+            退会
+          </td>
+          <td colspan="2">
+            <div>
+              <form method="post" action="list.php">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                  退会
+                </button>
+
+                <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAccountModalLabel">退会</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center">
+                        本当に退会してもよろしいですか？
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                        <button type="submit" class="btn btn-danger" name="delete_account" value="delete_account">退会する</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </table>
+
     </div>
-    <div>
-      <label for="new_password">新しいのパスワード</label>
-      <input type="password" id="new_password" name="new_password" value="{{dataArr.password.new_password}}">
-    </div>
-    <div>
-      <label for="new_password_confirmation">新しいのパスワード（確認）</label>
-      <input type="password" id="new_password_confirmation" name="new_password_confirmation" value="{{dataArr.password.new_password_confirmation}}">
-    </div>
-    <button type="submit" name="password_update" value="password_update">変更する</button>
-  </form>
-</div>
-<div>
-  <form method="post" action="list.php">
-    <div>
-      <button type="submit" name="delete_account" value="delete_account">退会する</button>
-    </div>
-  </form>
+  </div>
 </div>
 
 {% endblock %}
