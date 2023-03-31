@@ -19,10 +19,16 @@
 </head>
 <body>
 
+  {# ナビゲーションバー #}
   {% include 'nav.html.twig' %}
 
-  {# 各twigファイルの{% block content %}タグで囲われたコードが代入される #}
-  {% block content %}{% endblock %}
+  <div class="content">
+    {# 各twigファイルの{% block content %}タグで囲われたコードが代入される #}
+    {% block content %}{% endblock %}
+  </div>
+
+  {# フッター #}
+  {% include 'footer.html.twig' %}
 
 </body>
 </html>
