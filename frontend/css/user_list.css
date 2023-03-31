@@ -1,0 +1,8 @@
+.th-height {
+  line-height: calc(66px);
+}
+
+.active-recode {
+  font-weight: bold;
+  background-color: #d1e7dd;
+}

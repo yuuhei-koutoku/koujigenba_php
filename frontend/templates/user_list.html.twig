@@ -6,27 +6,29 @@
 
   {# サクセスメッセージを表示 #}
   {% if success_message | length > 0 %}
-    {{success_message}}
+    <div class="m-2 alert alert-primary" role="alert">
+      {{success_message}}
+    </div>
   {% endif %}
 
-  <table>
+  <table class="table table-striped table-bordered text-center mb-0">
     <tr>
-      <th rowspan="2">ID</th>
-      <th rowspan="2">名前</th>
-      <th rowspan="2">メールアドレス</th>
-      <th colspan="2">管理者/通常ユーザー</th>
+      <th rowspan="2" class="th-height">ID</th>
+      <th rowspan="2" class="th-height">名前</th>
+      <th rowspan="2" class="th-height">メールアドレス</th>
+      <th colspan="2">ユーザー種別</th>
       <th colspan="2">有効/無効</th>
-      <th rowspan="2">更新</th>
+      <th rowspan="2" class="th-height">更新</th>
     </tr>
     <tr>
-      <th>通常ユーザー</th>
+      <th>通常</th>
       <th>管理者</th>
       <th>有効</th>
       <th>無効</th>
     </tr>
     {% for num, user in user_list %}
       <form method="post" action="">
-        <tr>
+        <tr {% if user.id == session.user_id %}class="active-recode"{% endif %}>
           <td>{{user.id}}</td>
           <td>{{user.last_name}} {{user.first_name}}</td>
           <td>{{user.email}}</td>
