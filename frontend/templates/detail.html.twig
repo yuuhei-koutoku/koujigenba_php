@@ -34,13 +34,13 @@
           作成日時：{{article.detailArr.created_at}}
         </div>
 
-
+        {# 編集ボタン #}
         {% if article.detailArr.user_id == session.user_id %}
-
-          {# 編集ボタン #}
           <button type="button" class="btn btn-primary" onclick="location.href='{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}edit.php?article_id={{article.detailArr.id}}'">編集</button>
+        {% endif %}
 
-          {# 削除ボタン #}
+        {# 削除ボタン #}
+        {% if article.detailArr.user_id == session.user_id or user_info.admin == 1 %}
           <form method="post" action="list.php">
             <input type="hidden" name="article_id" value="{{article.detailArr.id}}">
 
@@ -68,8 +68,9 @@
               </div>
             </div>
           </form>
-        </div>
+        {% endif %}
+
       </div>
     </div>
-  {% endif %}
+  </div>
 {% endblock %}
