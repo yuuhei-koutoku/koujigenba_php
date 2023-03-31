@@ -34,10 +34,8 @@ $error_message = '';
 $template = 'login.html.twig';
 
 if ($_SESSION['res'] === true) {
-    // セッションがある場合
-
-    // ログアウト処理
-    require_once './auth/logout.php';
+    // セッションがある場合、list.phpへリダイレクト
+    header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
 } else {
     // セッションがない場合
 

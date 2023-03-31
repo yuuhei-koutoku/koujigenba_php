@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-        {% if session.res == true %}
+        {% if session.res == true and user_info.delete_flg == 0 %}
         {# セッションがある場合（ログイン時） #}
 
           {# 新規投稿 #}
@@ -19,6 +19,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}mypage.php">マイページ</a>
           </li>
+
+          {# ユーザー一覧 #}
+          {% if user_info.admin == 1 %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{constant('koujigenba_php\\backend\\Bootstrap::ENTRY_URL')}}user_list.php">ユーザー一覧</a>
+            </li>
+          {% endif %}
 
           {# ログアウト #}
           <li class="nav-item">

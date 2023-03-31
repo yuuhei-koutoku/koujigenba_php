@@ -29,6 +29,9 @@ if (isset($_POST['regist']) === true) {
                 // 入力内容が問題なく、データ挿入も正常に完了したら、list.html.twigを表示する
                 $template = 'list.html.twig';
                 $success_message = 'アカウントの登録に成功しました。';
+
+                // ログインユーザーの情報を取得
+                require_once 'user_info.php';
             } else {
                 $error_message = 'アカウントの登録に失敗しました。';
             }

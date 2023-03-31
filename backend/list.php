@@ -24,6 +24,8 @@ $twig = new \Twig_Environment($loader, [
 
 $session->checkSession();
 
+$user_info = [];
+
 $registArr = [];
 $registErrArr = [];
 
@@ -43,6 +45,9 @@ $template = 'list.html.twig';
 if ($_SESSION['res'] === true) {
     // セッションがある場合
 
+    // ログインユーザーの情報を取得
+    require_once './auth/user_info.php';
+
     // 記事投稿処理
     require_once './article/create.php';
 
@@ -54,6 +59,9 @@ if ($_SESSION['res'] === true) {
 
     // ログアウト処理
     require_once './auth/logout.php';
+
+    // 退会処理
+    require_once './auth/delete_flg.php';
 
 } else {
     // セッションがない場合
@@ -70,6 +78,8 @@ if ($_SESSION['res'] === true) {
 $listArr = $article->getArticle();
 
 $context = [];
+
+$context['user_info'] = $user_info;
 
 $context['registArr'] = $registArr;
 $context['registErrArr'] = $registErrArr;

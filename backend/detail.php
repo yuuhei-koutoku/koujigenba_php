@@ -8,9 +8,11 @@ use koujigenba_php\backend\Bootstrap;
 use koujigenba_php\backend\lib\PDODatabase;
 use koujigenba_php\backend\lib\Session;
 use koujigenba_php\backend\lib\Article;
+use koujigenba_php\backend\lib\User;
 
 $db = new PDODatabase(Bootstrap::DB_HOST, Bootstrap::DB_USER, Bootstrap::DB_PASS, Bootstrap::DB_NAME, Bootstrap::DB_TYPE);
 $session = new Session($db);
+$user = new User($db);
 
 $loader = new \Twig_Loader_Filesystem(Bootstrap::TEMPLATE_DIR);
 $twig = new \Twig_Environment($loader, [
@@ -30,6 +32,9 @@ if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id'])) {
     if ($detailArr !== []) {
         // 記事削除処理
         require_once './article/delete.php';
+
+        // ログインユーザーの情報を取得
+        require_once './auth/user_info.php';
     } else {
         // データが取得できなければ、list.phpへリダイレクト
         header('Location: ' . Bootstrap::ENTRY_URL . 'list.php');
@@ -40,6 +45,7 @@ if ($_GET !== [] && $_GET['article_id'] !== '' && isset($_GET['article_id'])) {
 }
 
 $context = [];
+$context['user_info'] = $user_info;
 $context['article']['detailArr'] = $detailArr[0];
 $context['session'] = $_SESSION;
 $template = $twig->loadTemplate($template);

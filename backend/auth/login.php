@@ -26,6 +26,9 @@ if (isset($_POST['login']) === true) {
             // ログインが成功したら、list.html.twigを表示
             $template = 'list.html.twig';
             $success_message = 'ログインに成功しました。';
+
+            // ログインユーザーの情報を取得
+            require_once 'user_info.php';
         } else {
             $error_message = 'ログインに失敗しました。';
         }
