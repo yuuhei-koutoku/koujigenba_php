@@ -11,7 +11,7 @@
       {# エラーメッセージを表示 #}
       {% if error_message | length > 0 %}
         <div class="alert alert-danger" role="alert">
-          {{error_message}}<br>
+          <i class="fa-solid fa-circle-exclamation"></i>{{error_message}}<br>
           {% if loginErrArr.email | length > 0 %}・{{loginErrArr.email}}<br>{% endif %}
           {% if loginErrArr.password | length > 0 %}・{{loginErrArr.password}}<br>{% endif %}
           {% if loginErrArr.authentication | length > 0 %}・{{loginErrArr.authentication}}<br>{% endif %}
