@@ -11,7 +11,7 @@
         {# エラーメッセージを表示 #}
         {% if error_message | length > 0 %}
           <div class="alert alert-danger" role="alert">
-            {{error_message}}<br>
+            <i class="fa-solid fa-circle-exclamation"></i>{{error_message}}<br>
             {% if registErrArr.last_name | length > 0 %}・{{registErrArr.last_name}}<br>{% endif %}
             {% if registErrArr.first_name | length > 0 %}・{{registErrArr.first_name}}<br>{% endif %}
             {% if registErrArr.email | length > 0 %}・{{registErrArr.email}}<br>{% endif %}

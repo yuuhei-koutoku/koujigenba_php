@@ -76,6 +76,7 @@ if ($_SESSION['res'] === true) {
 
 // 記事一覧データを取得
 $listArr = $article->getArticle();
+arsort($listArr);
 
 $context = [];
 

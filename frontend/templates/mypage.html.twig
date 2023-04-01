@@ -8,17 +8,17 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
 
-      {# サクセスメッセージ #}
+      {# サクセスメッセージを表示 #}
       {% if success_message | length > 0 %}
         <div class="my-2 alert alert-primary" role="alert">
-          {{success_message}}
+          <i class="fa-solid fa-circle-check"></i>{{success_message}}
         </div>
       {% endif %}
 
-      {# エラーメッセージ #}
+      {# エラーメッセージを表示 #}
       {% if error_message | length > 0 %}
         <div class="alert alert-danger" role="alert">
-          {{error_message}}<br>
+          <i class="fa-solid fa-circle-exclamation"></i>{{error_message}}<br>
           {% if errArr.email | length > 0 %}・{{errArr.email}}<br>{% endif %}
           {% if errArr.password.current_password | length > 0 %}・{{errArr.password.current_password}}<br>{% endif %}
           {% if errArr.password.new_password | length > 0 %}・{{errArr.password.new_password}}<br>{% endif %}
