@@ -7,7 +7,7 @@
   {# サクセスメッセージを表示 #}
   {% if success_message | length > 0 %}
     <div class="m-2 alert alert-primary" role="alert">
-      {{success_message}}
+      <i class="fa-solid fa-circle-check"></i>{{success_message}}
     </div>
   {% endif %}
 
@@ -17,7 +17,7 @@
       <th rowspan="2" class="th-height">名前</th>
       <th rowspan="2" class="th-height">メールアドレス</th>
       <th colspan="2">ユーザー種別</th>
-      <th colspan="2">有効/無効</th>
+      <th colspan="2">ステータス</th>
       <th rowspan="2" class="th-height">更新</th>
     </tr>
     <tr>

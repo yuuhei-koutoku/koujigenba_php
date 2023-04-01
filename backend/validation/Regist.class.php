@@ -53,7 +53,9 @@ class Regist
     private function emailCheck($user)
     {
         $check_email = $user->checkEmail($this->dataArr['email']);
-        if ($this->dataArr['email'] === '') {
+        if ($check_email === []) {
+            $this->errArr['email'] = '';
+        } elseif ($this->dataArr['email'] === '') {
             $this->errArr['email'] = 'メールアドレスを入力してください。';
         } elseif (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+[a-zA-Z0-9\._-]+$/', $this->dataArr['email']) === 0) {
             $this->errArr['email'] = 'メールアドレスを正しい形式で入力してください。';

@@ -42,6 +42,8 @@ class Login
             $this->errArr['email'] = 'メールアドレスを入力してください。';
         } elseif (preg_match('/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+[a-zA-Z0-9\._-]+$/', $this->dataArr['email']) === 0) {
             $this->errArr['email'] = 'メールアドレスを正しい形式で入力してください。';
+        } elseif ($check_email === []) {
+            $this->errArr['email'] = 'このメールアドレスは登録されていません。';
         } elseif ($check_email[0]['delete_flg'] === 1) {
             $this->errArr['email'] = 'このメールアドレスで登録されたアカウントは退会済みです。アカウントを復元する場合は、運営へ問い合わせてください。';
         }
